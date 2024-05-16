@@ -1,0 +1,11 @@
+/* cycle of length 6*/
+digraph c6 {
+  a1 -> b1;
+  a2 -> b1;
+  a2 -> b2;
+  a3 -> b2;
+  a3 -> b3;
+  a1 -> b3;
+}
+
+/*  [Last modified: 2007 08 24 at 17:12:52 GMT] */

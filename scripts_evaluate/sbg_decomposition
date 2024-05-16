@@ -1,0 +1,27 @@
+#! /bin/tcsh -f
+#: decomposition - creates DeltaGraph input for the decomposition diagrams
+#:                 representing a single size class (uses decomposition.awk)
+#: Usage: decomposition <class> [min]
+# Matt Stallmann, 29 May 2000
+
+if( "`setenv | fgrep PROCESSED_DIRECTORY`" == "" ) then
+     set PROCESSED_DIRECTORY = $cwd/../processed
+endif
+
+if( $#argv < 1 || $#argv > 2 ) then
+    echo "Usage: $0 <class> [ min ]"
+    echo "to get a DeltaGraph input for a Hasse diagram of all treatments;"
+    echo "<class> is a fixed class name (no wild cards)"
+    echo "The third argument indicates that min instead of mean is used"
+    exit( 1 )
+endif
+
+set field = 3;
+set extension = "";
+if ( $#argv == 2 ) then
+    set field = 2;
+    set extension = "_$2";
+endif
+
+cut -f 1,$field $PROCESSED_DIRECTORY/SUMMARY_$1 \
+     | awk -f decomposition.awk > DC_$1$extension

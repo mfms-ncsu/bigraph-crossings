@@ -1,0 +1,12 @@
+# Natural ordering for graph hc_16
+# seed: 0 0 0
+# Ordering for layer 0
+0 { 
+ b0000 b1100 b1010 b0110 b1001 b0101 b0011 b1111
+} 
+# End of ordering for layer 0
+# Ordering for layer 1
+1 { 
+ a1000 a0100 a0010 a1110 a0001 a1101 a1011 a0111
+} 
+# End of ordering for layer 1

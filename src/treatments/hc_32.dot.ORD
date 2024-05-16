@@ -1,0 +1,14 @@
+# Natural ordering for graph hc_32
+# seed: 0 0 0
+# Ordering for layer 0
+0 { 
+ b00000 b11000 b10100 b01100 b10010 b01010 b00110 b11110 b10001 b01001 b00101 b11101 b00011
+ b11011 b10111 b01111
+} 
+# End of ordering for layer 0
+# Ordering for layer 1
+1 { 
+ a10000 a01000 a00100 a11100 a00010 a11010 a10110 a01110 a00001 a11001 a10101 a01101 a10011
+ a01011 a00111 a11111
+} 
+# End of ordering for layer 1

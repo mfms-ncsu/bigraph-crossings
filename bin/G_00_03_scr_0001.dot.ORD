@@ -1,0 +1,12 @@
+# Natural ordering for graph G_00_03_scr_0001
+# seed: 1 2 3
+# Ordering for layer 0
+0 { 
+ b8 b54 b77 b26 b40 b66 b69 b42 b29 b34 b45 b59 b80 b50 b24 b79 b67 b37 b9 b13 b25 b81 b38 b55 b5 b78 b17 b28 b56 b16 b75 b74 b2 b62 b36 b10 b35 b72 b1 b85 b4 b57 b88 b19 b68 b70 b47 b39 b44 b27 b82 b14 b3 b33 b30 b41 b58 b51 b61 b46 b11 b6 b31 b52 b86 b48 b53 b12 b84 b71 b76 b23 b18 b43 b15 b60 b0 b83 b73 b20 b21 b32 b49 b63 b64 b22 b65 b87 b7
+} 
+# End of ordering for layer 0
+# Ordering for layer 1
+1 { 
+ a3 a19 a4 a17 a2 a8 a9 a10 a21 a14 a1 a11 a18 a12 a0 a7 a13 a5 a16 a6 a20 a15
+} 
+# End of ordering for layer 1

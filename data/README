@@ -1,0 +1,4 @@
+This directory holds all experimental data.
+
+Need a file here to ensure that the directory is copied when cvs uses the
+-P option for checkout.

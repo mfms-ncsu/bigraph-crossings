@@ -1,0 +1,12 @@
+# Natural ordering for graph g_3_21_scr_0001
+# seed: 13682 32175 35437
+# Ordering for layer 0
+0 { 
+ b7 b3 b6 b5 b8 b9 b4 b1 b2 b0
+} 
+# End of ordering for layer 0
+# Ordering for layer 1
+1 { 
+ a15 a1 a16 a21 a2 a10 a5 a0 a4 a9 a20 a18 a17 a8 a14 a19 a7 a3 a13 a6 a12 a11
+} 
+# End of ordering for layer 1

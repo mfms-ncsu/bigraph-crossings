@@ -1,0 +1,55 @@
+#! /bin/tcsh -f
+#: graph_ratios - creates a data file suitable for DeltaGraph, plotting
+#:                ratios of crossing numbers between two treatments for
+#:                random graphs of various density factors
+# Matt Stallmann, 22 Mar 2000
+
+if( "`setenv | fgrep PROCESSED_DIRECTORY`" == "" ) then
+     set PROCESSED_DIRECTORY = $cwd/../processed
+endif
+
+if( $#argv < 2 || $#argv > 3 ) then
+    echo "Usage: $0 <treatment 1> <treatment 2> [ min ]"
+    echo "to get ratio of mean crossings for treatment 1 vs. treatment 2"
+    echo "(the third argument is included if min instead of mean is to be"
+    echo " used - also implies scr class, and mean for treatment 1 if both"
+    echo " treatments are the same)"
+    exit( 1 )
+endif
+
+set tr1 = $1
+set tr2 = $2
+set field1 = 3
+set field2 = 3
+set suffix =
+if( $#argv == 3 ) then
+    set suffix = _scr
+    set field2 = 2
+    if( $tr1 != $tr2 ) then
+        set field1 = 2
+    endif
+endif
+
+set output_file = $PROCESSED_DIRECTORY/GR_${tr1}_${tr2}$suffix 
+
+foreach density_factor ( 1 1p03125 1p0625 1p125 1p 2 4 8 )
+    fgrep $tr1 \
+     $PROCESSED_DIRECTORY/SUMMARY_GB_${density_factor}_rnd0_0[1-8]$suffix \
+        | cut -f $field1 > /tmp/tr1_$$
+    fgrep $tr2 \
+     $PROCESSED_DIRECTORY/SUMMARY_GB_${density_factor}_rnd0_0[1-8]$suffix \
+        | cut -f $field2 > /tmp/tr2_$$
+    paste /tmp/tr1_$$ /tmp/tr2_$$ | awk -f quotient.awk \
+        > /tmp/${density_factor}_$$
+    rm /tmp/tr?_$$
+end
+
+echo edges ':a = 1.0' ':a = 1.03125' ':a = 1.0625' ':a = 1.125' \
+    ':a = 1.25' ':a = 2.0' ':a = 4.0' ':a = 8.0' \
+ | awk -F: \
+ '{ printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",$1,$2,$3,$4,$5,$6,$7,$8; }' \
+    > $output_file
+
+paste edges_x /tmp/[1-8]*_$$ >> $output_file
+rm /tmp/[1-8]*_$$
+

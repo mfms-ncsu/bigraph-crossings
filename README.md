@@ -1,18 +1,9 @@
 # bigraph-crossings
     Software for Stallmann, Brglez, Ghosh: "Heuristics, Experimental..."
 
-               SBG_Software, Version 1.1, originally released 2004/09/28
+               SBG_Software, Version 1.3, first version released 2004/09/28
                    Bipartite Graph Crossing Minimization
 
-    Modifications since original JEA version:
-
-     * The dot software is no longer a part of this release (it does not
-       compile under many newer gcc compilers). It is now part of GraphViz
-     * Fixed an uninitialized pointer that caused problems on some
-       platforms, particularly Linux (Special thanks to Waseem Ahmad,
-       UIC, for pointing out the problem).
-     * sbg_run_all is now more verbose (tells you what it's doing so that
-       the example is more transparent).
      _________________________________________________________________
 
       *** INSTALLATION *** EXECUTION *** EXAMPLE (to illustrate use of
@@ -22,18 +13,21 @@
    This is the table of contents for the software used in the experiments
    for Heuristics, Experimental Subjects, and Treatment Evaluation in
    Bigraph Crossing Minimization, by M. Stallmann, F. Brglez, and
-   D. Ghosh, in JEA 2001.
+   D. Ghosh, in JEA 2001. BibTeX entry:
 
-   Separate files for main topics are accessible via links below. All
-   README files are generated from .html files using
-     lynx -dump -nolist file.html
+   ```
+   @article{2001-JEA-Stallmann,
+    author  = "M. Stallmann and F. Brglez and D. Ghosh",
+    title   = "{Heuristics, Experimental Subjects, and Treatment Evaluation
+                  in Bigraph Crossing Minimization}",
+    journal = {Journal on Experimental Algorithmics},
+    year    = 2001,                                                            
+    volume  = 6,                                                           
+    number  = 8,                                                           
+}
+   ```
 
-   An index.html file generates a plain README file. Any other file.html
-   generates README.file. The README (.html) files for the main topics
-   are README.install (installation), README.execute (instructions for
-   executing programs), README.formats (filename conventions and data
-   formats), and README.example (an example illustrating the use of our
-   various scripts).
+   All important information is available from `index.html`
 
    COPYRIGHT:
    This software is freely available for academic teaching and research

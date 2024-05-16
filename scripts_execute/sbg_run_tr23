@@ -1,0 +1,40 @@
+#! /bin/csh -f
+##: run_tr23 - run tr23 on a given bigraph type (assumes that the script
+#:            tr23 is in the same directory as where we're running this
+#:            script).
+# Matt Stallmann, 21 Oct 1999
+
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+     set DATA_DIRECTORY = $cwd/../data
+endif
+
+if( $#argv < 1 || $#argv > 2 ) then
+    echo "Usage: $0 <class name> [<number of subjects per class>]"
+    echo "<class name> is a string specifying a set of subdirectories"
+    echo "of the data directory (enclosed in single or double quotes to"
+    echo "prevent globbing)"
+    exit( 1 )
+endif
+
+set current_directory = $cwd
+cd $DATA_DIRECTORY
+set class_list = `glob $1`
+if ( $#argv == 2 ) then
+    @ subjects = $2
+else
+    @ subjects = 8              # default for tr23
+endif
+foreach dir ( $class_list )
+    cd $DATA_DIRECTORY/$dir
+    set results = "TR23_$subjects"
+    if( -e $results ) mv $results $results.bak
+    touch $results
+    @ count_subjects = 0
+    foreach file ( *.dot )
+        set base = `basename $file .dot`
+        $current_directory/sbg_tr23 $file $file.ORD >> $results
+        rm -f *.ord
+        @ count_subjects = $count_subjects + 1
+        if ( $count_subjects >= $subjects ) break
+    end
+end

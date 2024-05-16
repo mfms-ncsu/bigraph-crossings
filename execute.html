@@ -1,0 +1,113 @@
+<html> <head>
+<title>Stallmann, Brglez, Ghosh: Software Execution</title>
+</head>
+
+<body text=black bgcolor=white>
+<h2 align=center>Stallmann, Brglez, Ghosh: Software Execution</h2>
+
+<p>
+Generation of experimental data, execution of heuristics, and formatting of
+results is accomplished by scripts in the three <code>scripts_*</code>
+directories. All
+scripts are designed to be executed in the directory that contains them,
+and, to avoid naming conflicts, have names prefixed with <code>sbg_.</code>
+They also
+all access information in the data directory, which is
+<a href="install.html#root"><code>root_directory/data</code></a>
+by default but can be changed by setting the <code>DATA_DIRECTORY</code>
+environment
+variable. Most of the scripts also assume that the
+<a href="install.html#bin">bin directory</a> specified
+during installation is in the current path -- if not, this can be remedied
+by setting the environment variable <code>PROGRAM_DIRECTORY</code>
+prior to execution of
+the script. All except one of the scripts uses <code>csh</code>;
+the exception is the
+perl script <code>sbg_gen_abd</code> in <code>scripts_generate</code>.
+
+<p>
+The index files in <a href="scripts_generate">scripts_generate</a>,
+<a href="scripts_execute">scripts_execute</a>, and
+<a href="scripts_evaluate">scripts_evaluate</a>
+give more detailed instructions for the appropriate scripts.
+
+<p>
+The actual programs that appear in the bin directory after installation are
+listed below. All programs and scripts print usage messages when invoked with no
+command-line arguments.
+
+<ul>
+  <li> <strong>Generators</strong>
+		 <ul>
+			<li> <code>sbg_comm_graph rank type base_name</code>
+				  - creates a butterfly, hypercube, or
+				  grid (<code>type</code> is one of bfly, hcube, grid) of the
+				  given rank, writes 
+				  the graph description in file <code>base_name.dot</code>,
+				  and a canonical order in file <code>base_name.dot.ORD</code>.
+   
+			<li> <code>sbg_random_graph</code> <var>&lt;options&gt;</var>
+				  - creates a random bipartite graph based on
+				  settings of various options.  More
+              <a href="src/generate_random/html/index.html">detailed
+              information</a> is available.
+
+			<li> <code>sbg_scramble dot_file N seed_file verbose
+				  update_seed</code> - creates <code>N</code>
+				  scrambled isomorphs of the graph in the <code>dot_file</code>
+				  using the <code>seed_file</code>
+				  to initialize the rand48 generator; <code>verbose</code>
+				  and <code>update_seed</code> are
+				  boolean (0 or 1), and determine whether detailed information
+				  about each scrambling is written (verbose) and whether the
+				  seed file is updated after scrambling to reflect the new
+				  position in the random stream.
+
+			<li> <code>sbg_vlsi_graph rank type base_name</code>
+				  - same as <code>sbg_comm_graph</code> except that
+				  <code>type</code> is one of G00, G01, G10, G11, G20, or G21.
+		 </ul>
+  <li> <strong>Execution of Treatments</strong>
+		 <ul>
+			<li> <code>sbg_treat -tr=treatment dot_file ord_file</code>
+				  - main program for all
+				  treatments in the paper
+              other than dot and tr23.
+              More <a href="src/treatments/html/index.html">detailed information
+				  </a> is available.
+		 </ul>
+
+  <li><strong>Evaluation of Results</strong>
+		 <ul>
+			<li> <code>sbg_cn_eval dot_file ord_file</code> - outputs the
+				  number of crossings for the 
+				  graph specified in the <code>dot_file</code> given the
+				  ordering specified in the <code>ord_file.</code>
+
+			<li> <code>sbg_fstats</code> - a "quick and dirty"
+				  program for getting min, average, max,
+				  and standard deviation from a collection of data; input
+				  (standard
+				  input) is a list of numbers, output (standard output) has 4
+				  tab-separated numbers: minimum, mean, maximum, and standard
+				  deviation.
+
+			<li> <code>sbg_gstats</code> - a
+				  program for getting detailed information about a specific
+				  input graph, such as number of nodes on each layer, number of
+				  edges, minimum, maximum, and average degree, etc.
+		 </ul>
+</ul>
+<hr>
+<address><a href="http://www.csc.ncsu.edu/eos/users/m/mfms/www/">
+       Matthias Stallmann</a>
+       (<a href="mailto:Matt_Stallmann@ncsu.edu">
+        <code>Matt_Stallmann@ncsu.edu</code></a>)</address>
+<!-- hhmts start -->Last modified: Mon Jul 10 16:35:02 EDT 2006 <!-- hhmts end -->
+</body> </html>
+
+<!---
+Local Variables: ***
+mode:html-helper ***
+End: ***
+--->

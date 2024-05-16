@@ -1,0 +1,39 @@
+#!/bin/csh -f
+#: gen_01
+#: Create isomorphism classes for all VLSI graphs of type 'G_{01,k}', where
+#: k is any of the two-digit numbers on rank_list; class_size is the number
+#: of subjects in the class
+
+set rank_list = '02 03 04 05 06 07'
+set class_size = 32
+
+if( "`setenv | fgrep SEED_FILE`" == "" ) then
+    set SEED_FILE = $cwd/seed_file
+endif
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+    set DATA_DIRECTORY = $cwd/../data
+endif
+if( "`setenv | fgrep PROGRAM_DIRECTORY`" != "" ) then
+    set path = ( ${PROGRAM_DIRECTORY} $path )
+endif
+
+foreach rank ($rank_list)
+    set name = G_01_$rank
+    echo "Creating directory $name"
+    if( -e $DATA_DIRECTORY/$name ) then
+        echo -n "Directory $name exists; remove it? "
+        set answer = $<
+        if( $answer == y ) then
+            rm -rf $DATA_DIRECTORY/$name
+        else
+            continue
+        endif
+    endif
+    mkdir $DATA_DIRECTORY/$name
+    cd $DATA_DIRECTORY/$name
+    sbg_vlsi_graph $rank G01 $name
+    sbg_scramble $name.dot $class_size $SEED_FILE 0 1
+    rm $name.dot $name.dot.ORD
+end
+
+#  [Last modified: 2011 08 16 at 20:32:26 GMT]

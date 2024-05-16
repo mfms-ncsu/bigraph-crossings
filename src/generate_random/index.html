@@ -1,0 +1,56 @@
+<html> <head>
+<title>Source for Program to Generate Random Bigraphs</title>
+</head>
+
+<body text=black bgcolor=white>
+<h2 align=center>Source for Program to Generate Random Bigraphs</h2>
+
+<ul>
+<li><b><a href=CmdLine.cxx>CmdLine.cxx</a></b>  - implementation of command-line parser
+<li><b><a href=CmdLine.hxx>CmdLine.hxx</a></b>  - header for a class that parses the command line
+               (uses classes StrQueue and StrTable)
+<li><b><a href=Graph.cxx>Graph.cxx</a></b>  - implementation of Graph ADT
+<li><b><a href=Graph.hxx>Graph.hxx</a></b>  - header for Graph ADT (used for generating random connected
+             graphs but may have other applications later); undirected
+<li><b><a href=IntIterator.cxx>IntIterator.cxx</a></b>  - based on recIterator.C in Perry/Levin, Section 12.7
+<li><b><a href=IntIterator.hxx>IntIterator.hxx</a></b>  - based on recIterator.H in Perry/Levin, Section 12.7
+<li><b><a href=IntList.cxx>IntList.cxx</a></b>  - based on recList.C in Perry/Levin, Section 12.7
+<li><b><a href=IntList.hxx>IntList.hxx</a></b>  - based on recList.H in Perry/Levin, Section 12.7
+<li><b><a href=IntNode.cxx>IntNode.cxx</a></b>  based on recNode.C in Perry/Levin, Section 12.7
+<li><b><a href=IntNode.hxx>IntNode.hxx</a></b>  - based on recNode.H in Perry/Levin, Section 12.7
+<li><b><a href=Rand.hxx>Rand.hxx</a></b>  - definition of a class of random number streams; each stream
+            can be initialized from an istream or an array of 3 short
+            int's and (optionally) written to an ostream via the
+            overloaded operator. Uses rand48 library.
+<li><b><a href=StrNode.cxx>StrNode.cxx</a></b>  (from Perry/Levin, chapter 12)
+<li><b><a href=StrNode.hxx>StrNode.hxx</a></b>  (modified from strNode.H in Perry/Levin, chapter 12)
+<li><b><a href=StrQueue.cxx>StrQueue.cxx</a></b>  (from Perry/Levin, chapter 12)
+<li><b><a href=StrQueue.hxx>StrQueue.hxx</a></b>  (from Perry/Levin, chapter 12, uses class StrNode)
+<li><b><a href=StrTabNode.cxx>StrTabNode.cxx</a></b>  (modified from telNode.H in Perry/Levin, chapter 12)
+<li><b><a href=StrTabNode.hxx>StrTabNode.hxx</a></b>  (modified from telNode.H in Perry/Levin, chapter 12)
+<li><b><a href=StrTable.cxx>StrTable.cxx</a></b>  (a modified version of telDirectory.C from Perry/Levin,
+ chapter 12)
+<li><b><a href=StrTable.hxx>StrTable.hxx</a></b>  (a modified version of telDirectory.H from Perry/Levin,
+ chapter 12; uses class StrTabNode)
+<li><b><a href=defs.h>defs.h</a></b>  - definitions common to all source files for randomBiGraph
+<li><b><a href=dot.cxx>dot.cxx</a></b>  - functions that read "dot" format for graphs
+<li><b><a href=dot.h>dot.h</a></b>  - module for reading "dot" files
+<li><b><a href=ord.cxx>ord.cxx</a></b>  - implementation of utility functions that read and write .ord
+           files (node ordering on layers of a graph)
+<li><b><a href=ord.h>ord.h</a></b>  - header for utility functions that read and write .ord files (node
+          ordering on layers of a graph)
+<li><b><a href=randomBiGraph.cxx>randomBiGraph.cxx</a></b>  - program to generate a random connected bipartite
+                     graph with a given number of nodes specified for
+                     each side and a given number of edges
+<li><b><a href=Makefile>Makefile</a></b>  for programs generating random bipartite graphs in .dot format
+</ul>
+
+<hr>
+<address><a href="http://www.csc.ncsu.edu/eos/users/m/mfms/www/">
+       Matthias Stallmann</a>
+       (<a href="mailto:mfms@csc.ncsu.edu">
+        <code>mfms@csc.ncsu.edu</code></a>)</address>
+<!-- hhmts start -->
+Last modified: Thu Mar 22 12:05:42 2001
+<!-- hhmts end -->
+</body> </html>

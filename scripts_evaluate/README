@@ -1,0 +1,78 @@
+
+             Stallmann, Brglez, Ghosh: Data Evaluation Scripts
+                                      
+   These scripts are in two categories. The first category takes raw data
+   from directories containing the experimental subjects and summarizes
+   the data. The raw data is in files created by the execution scripts,
+   files named TR?? that record actual crossing numbers for each subject
+   treated by treatment ?? or files named TIMING_TR?? that record time
+   and number of iterations for the treatment in question. Each of these
+   scripts has a single argument, which is a string called class-name
+   denoting the set of subdirectories from which to gather data. In
+   general this string will contain globbing information, such as
+   GB_*_rnd0_0?, and needs to be put in quotes.
+     * sbg_confidence_intervals - script to produce 95% confidence
+       intervals for data in TR?? files in specified class directories;
+       number of subjects can be set along with relevant t-table data
+       Usage: sbg_confidence_intervals class-name
+     * sbg_itr_summaries - script to generate summaries of iteration data
+       from TIMING_TR?? files in specified class directories
+       Usage: sbg_itr_summaries class-name
+     * sbg_summaries to generate summaries from TR?? files in specified
+       class directories (is careful to use the last 64 -- or whatever
+       the appropriate class size -- data entries; there may be 65 in
+       case of an isomorphic class, the first being biased because of the
+       way it was generated.
+       Usage: sbg_summaries class-name
+     * sbg_summary2ci to generate confidence intervals from existing
+       SUMMARY files; uses confidence.awk to process the data (can set
+       the number of subjects).
+       Usage: sbg_summary2ci class-name
+     * sbg_timing_summaries - script to generate summaries from
+       TIMING_TR?? files in specified class directories
+       Usage: sbg_timing_summaries class-name
+       
+   The second type of script generates tabular data appropriate for use
+   in a spreadsheet program. We used DeltaGraph, but others would work
+   equally well.
+   
+   Most of these scripts require two treatments as input -- these are
+   given on the command line in the form tr??, or dot in the special case
+   of the dot treatment. Most also allow an additional argument, whose
+   presence causes the minimum rather than the average to be used when
+   looking at crossing number statistics for a class. The optional
+   argument also causes either _scr or _min, as appropriate, to be added
+   as a suffix to the output file name. When random classes are involved,
+   the corresponding iso classes are used when the optional argument is
+   present. The other scripts all require that sbg_summaries has already
+   been executed for the relevant classes.
+     * decomposition.awk - an awk program for creating the DeltaGraph
+       input for the decomposition diagram representation of a particular
+       bigraph class (for use with csh script sbg_decomposition)
+     * edges_[bhrx] - files giving the number of edges for various sizes
+       of butterflies, hypercubes, grids, and vlsi graphs, respectively
+       (edges_x also gives the sizes used for all random graph classes,
+       except those specifically based on communication graphs).
+     * quotient.awk - transforms two fields to one as by taking their
+       quotient (x if undefined, 1 in the special case of 0/0).
+     * sbg_comm_ratios - creates a data file suitable for DeltaGraph,
+       plotting ratios of crossing numbers between two treatments for
+       butterflies, hypercubes, and grids
+     * sbg_decomposition - creates DeltaGraph input for the decomposition
+       diagrams representing a single size class (uses decomposition.awk)
+       Usage: sbg_decomposition class [min]
+     * sbg_graph_ratios - creates a data file suitable for DeltaGraph,
+       plotting ratios of crossing numbers between two treatments for
+       random graphs of various density factors.
+     * sbg_tree_ratios - creates a data file suitable for DeltaGraph,
+       plotting ratios of crossing numbers between two treatments for
+       trees of various dimensions.
+     * sbg_vlsi_ratios - creates a data file suitable for DeltaGraph,
+       plotting ratios of crossing numbers between two treatments for all
+       VLSI graphs.
+     _________________________________________________________________
+   
+   
+    Matthias Stallmann ( mfms@csc.ncsu.edu)
+    
+   Last modified: Mon Apr 9 13:53:19 2001

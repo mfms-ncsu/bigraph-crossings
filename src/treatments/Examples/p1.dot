@@ -1,0 +1,6 @@
+/* Path of length 1*/
+digraph p4 {
+  a1 -> b1;
+}
+
+/*  [Last modified: 2007 07 05 at 14:59:17 GMT] */

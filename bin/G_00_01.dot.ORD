@@ -1,0 +1,12 @@
+# Natural ordering for graph G_00_01
+# seed: 0 0 0
+# Ordering for layer 0
+0 { 
+ b0 b1 b2 b3 b4 b5 b6 b7 b8 b9 b10 b11 b12 b13 b14 b15 b16
+} 
+# End of ordering for layer 0
+# Ordering for layer 1
+1 { 
+ a0 a1 a2 a3
+} 
+# End of ordering for layer 1

@@ -1,0 +1,128 @@
+<html> <head>
+<title>Stallmann, Brglez, Ghosh: Data Generation Scripts</title>
+</head>
+
+<body text=black bgcolor=white>
+<h2 align=center>Stallmann, Brglez, Ghosh: Data Generation Scripts</h2>
+
+<em>
+This directory contains class generation scripts for the paper
+          "Heuristics, Experimental Subjects, and Treatment Evaluation in
+          Bigraph Crossing Minimization", by M. Stallmann, F. Brglez, and
+          D. Ghosh.
+</em>
+<hr>
+
+<p>
+These generation scripts require the presence of a seed file containing 3
+non-negative integers &lt; 2<sup>16</sup>. These are used to construct the
+seed for
+Default name for the seed file is <code>seed_file</code>
+in the current directory, but may be changed by setting the environment
+variable <code>SEED_FILE</code> prior to running the script.
+
+<p>
+Directories corresponding to the bigraph classes are installed in the
+directory <code>../data</code>
+(wrt the current directory), but may be changed by
+setting the environment variable <code>DATA_DIRECTORY</code>.
+
+<p>
+Finally, the binaries for various bigraph generating programs are assumed
+to be on the current path or in the directory specified by the environment
+variable <code>PROGRAM_DIRECTORY.</code>
+
+<p>
+The scripts are as follows:
+<ul>
+  <li> <code>sbg_gen_[0-2][01]</code><br>
+		 The script <code>sbg_gen_</code><var>xy</var>
+		 creates all isomorphism classes for the graph type
+		 <var>G<sub>xy,k</sub></var>.
+		 To create all the VLSI graphs, simply do (in csh)
+<pre>
+     % foreach type ( 00 01 10 11 20 21 )
+     foreach? sbg_gen_$type
+	  foreach? end 
+</pre>
+<ul>
+<li><b><a href=sbg_gen_00>sbg_gen_00</a></b>
+<li><b><a href=sbg_gen_01>sbg_gen_01</a></b>
+<li><b><a href=sbg_gen_10>sbg_gen_10</a></b>
+<li><b><a href=sbg_gen_11>sbg_gen_11</a></b>
+<li><b><a href=sbg_gen_20>sbg_gen_20</a></b>
+<li><b><a href=sbg_gen_21>sbg_gen_21</a></b>
+<li><b><a href=sbg_gen_a1>sbg_gen_a1</a></b> - create random tree classes
+	  with same number of cell and net 
+	  nodes and same number of edges as the G_{xy,k} graphs;
+	  dimensions range from 1 to 2.
+<li><b><a href=sbg_gen_abd>sbg_gen_abd</a></b> - generate random bigraphs
+	  of a specified type<br>
+ Usage: <code>gen_abd [-a <var>density</var>] [-b <var>balance</var>] [-d
+	  <var>dimension</var>] 
+	  [-x] [-r <var>rank</var>] [-N <var>number of subjects</var>] </code>
+	  <br>
+	  where<br>
+	  <var>density</var> = # of edges / (# of nodes - 1) (default = 1)<br>
+	  <var>balance</var> = # of side 1 nodes / # of side 0 nodes (1)<br>
+	  <var>dimension</var> = 1 + e, where spanning tree is constructed using
+	  distance between points in a 1 x e rectangle if e is in the interval
+	  [0,1]; otherwise, spanning tree is based on uniformly random
+	  point-to-point distances (0) <br>
+	  the -x option is present if graphs are not necessarily connected,<br>
+	  <var>rank</var> = highest rank (rank 1 implies 20 edges; after that each
+	  rank doubles the number of edges and adds 10) (default = 8)<br>
+	  <var>number of subjects</var> = number of subjects per class (default
+	  = 32)<br>
+	  At least one argument must be explicitly specified.
+<li><b><a href=sbg_gen_bfly>sbg_gen_bfly</a></b> - create butterflies only
+<li><b><a href=sbg_gen_bfly_rnd>sbg_gen_bfly_rnd</a></b> - create random
+	  graphs with the same signature as 
+	  butterfly graphs
+<li><b><a href=sbg_gen_grid>sbg_gen_grid</a></b> - create grids (meshes) only
+<li><b><a href=sbg_gen_grid_rnd>sbg_gen_grid_rnd</a></b> gen_grid_rnd -
+	  create random graphs with the same signature as grids (meshes)
+<li><b><a href=sbg_gen_hcube>sbg_gen_hcube</a></b> - create hypercubes only
+<li><b><a href=sbg_gen_hcube_rnd>sbg_gen_hcube_rnd</a></b> - create random
+	  graphs with the same signature as hypercubes
+<li><b><a href=sbg_gen_iso>sbg_gen_iso</a></b> - script to create
+	  isomorphism classes from representatives of a 
+	  specified collection of random classes<br>
+ Usage: <code>sbg_gen_iso</code> <var>class-name</var> [
+	  <var>individual</var> ] <br>
+	  where <var>class-name</var> is a string specifying a set of subdirectories
+	  of the data directory (enclosed in single or double quotes to
+	  prevent globbing) and <var>individual</var> is an integer specifying the
+	  particular representative of a class to use (default = 1); the
+	  class name of the new iso class has a suffix
+	  <code>_scr</code><var>individual</var>
+<li><b><a href=sbg_gen_jm>sbg_gen_jm</a></b> - create graphs corresponding
+	  to those reported in the Juenger 
+	  and Mutzel paper (plus larger ones of the same type and
+	  connected graphs to match each class)
+<li><b><a href="sbg_generate">sbg_generate</a></b> - generate a class of
+	  random bigraphs in which sizes increase by an exact factor of 2
+	  (as opposed to the <nobr>2x + 10</nobr> increase used in the JEA
+	  paper. Arguments are the same as those used by
+	  <strong>sbg_gen_abd</strong>, except that the flags <code>-L</code>
+	  and <code>-U</code> are used to specify the smallest and largest
+	  number of edges, respectively. Defaults are 64 and 2048.
+<li><b><a href=sbg_harvest_seeds>sbg_harvest_seeds</a></b> - retrieve seed
+	  information used to generate the specified classes<br>
+	  Usage: <code>sbg_harvest_seeds</code> <var>class-name</var>
+	  <var>output-file</var><br>
+	  where <var>class-name</var> is a string specifying a set of subdirectories
+	  of the data directory (enclosed in single or double quotes to
+	  prevent globbing) and <var>output-file</var> is where the class names and
+	  the seeds are stored.
+</ul>
+
+<hr>
+<address><a href="http://www.csc.ncsu.edu/eos/users/m/mfms/www/">
+       Matthias Stallmann</a>
+       (<a href="mailto:mfms@csc.ncsu.edu">
+        <code>mfms@csc.ncsu.edu</code></a>)</address>
+<!-- hhmts start -->
+Last modified: Fri May  4 13:04:19 2001
+<!-- hhmts end -->
+</body> </html>

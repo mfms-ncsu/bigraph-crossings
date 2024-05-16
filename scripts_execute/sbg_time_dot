@@ -1,0 +1,43 @@
+#! /bin/csh -f
+##: time_dot - get timing stats for dot on a given bigraph type
+
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+     set DATA_DIRECTORY = $cwd/../data
+endif
+if( "`setenv | fgrep PROGRAM_DIRECTORY`" != "" ) then
+     set path = ( ${PROGRAM_DIRECTORY} $path )
+endif
+
+if( $#argv < 1 || $#argv > 2 ) then
+    echo "Usage: $0 <class name> [<number of subjects per class>]"
+    echo "<class name> is a string specifying a set of subdirectories"
+    echo "of the data directory (enclosed in single or double quotes to"
+    echo "prevent globbing)"
+    exit( 1 )
+endif
+
+cd $DATA_DIRECTORY
+set class_list = `glob $1`
+if ( $#argv == 2 ) then
+    @ subjects = $2
+else
+    @ subjects = 64    # or a suitably large number
+endif
+foreach dir ( $class_list )
+    cd $DATA_DIRECTORY/$dir
+    set results = "TIMING_TR12"
+    if( -e $results ) mv $results $results.bak
+    touch $results
+    @ count_subjects = 0
+    foreach file ( *.dot )
+        (time sbg_dot_cn $file) |& paste - - \
+          | awk '{ split($3,x,"u"); printf "%s\t%6.2f\t%d\n",$1,x[1],0; }' \
+          >> $results
+        if ( $status ) then
+            echo "Unable to run sbg_dot_cn; check PROGRAM_DIRECTORY variable"
+            exit( 1 )
+        endif
+        @ count_subjects = $count_subjects + 1
+        if ( $count_subjects >= $subjects ) break
+    end
+end

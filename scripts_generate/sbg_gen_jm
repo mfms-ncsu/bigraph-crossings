@@ -1,0 +1,80 @@
+#!/bin/csh -f
+#: gen_jm - create graphs corresponding to those reported in the Juenger
+#:          and Mutzel paper (plus larger ones of the same type and
+#:          connected graphs to match each class)
+# Matt Stallmann, 09 Mar 2000
+
+set class_size = 100
+
+if( "`setenv | fgrep SEED_FILE`" == "" ) then
+    set SEED_FILE = $cwd/seed_file
+endif
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+    set DATA_DIRECTORY = $cwd/../data
+endif
+if( "`setenv | fgrep PROGRAM_DIRECTORY`" != "" ) then
+    set path = ( ${PROGRAM_DIRECTORY} $path )
+endif
+
+# first generate 10 x 10 graphs of various densities (both
+# connected and not necessarily connected)
+
+set size = 10
+foreach density ( 10 20 30 40 50 60 70 80 90 )
+    set name_jm = GN_JM_${size}_${density}
+    set name_sbg = GC_JM_${size}_${density}
+    foreach name ( $name_jm $name_sbg )
+        echo "Creating directory $name"
+        if( -e $DATA_DIRECTORY/$name ) then
+            echo -n "Directory $name exists; remove it? "
+            set answer = $<
+            if( $answer == y ) then
+                rm -rf $DATA_DIRECTORY/$name
+            else
+                continue
+            endif
+        endif
+        mkdir $DATA_DIRECTORY/$name
+        cd $DATA_DIRECTORY/$name
+        @ m = ($size * $size * $density) / 100
+        if ( $name == $name_jm ) then
+            @ connected = 0
+        else
+            @ connected = 1
+        endif
+        sbg_random_graph -n0=$size -m=$m -c=$connected -d=0 \
+            -seed=$SEED_FILE -N=$class_size -name=$name
+    end
+end
+
+# Then generate "sparse graphs" (ones in which average node degree is 2)
+# with n0 (and n1) ranging from 10 to 100 (by 10's) and again from 100 to
+# 1000 (by 100's)
+
+foreach size ( 10 20 30 40 50 60 70 80 90 100 200 \
+                300 400 500 600 700 800 900 1000 )
+    set name_jm = GN_JM_S_${size}
+    set name_sbg = GC_JM_S_${size}
+    foreach name ( $name_jm $name_sbg )
+        echo "Creating directory $name"
+        if( -e $DATA_DIRECTORY/$name ) then
+            echo -n "Directory $name exists; remove it? "
+            set answer = $<
+            if( $answer == y ) then
+                rm -rf $DATA_DIRECTORY/$name
+            else
+                continue
+            endif
+        endif
+        mkdir $DATA_DIRECTORY/$name
+        cd $DATA_DIRECTORY/$name
+        @ m = $size * 2
+        if ( $name == $name_jm ) then
+            @ connected = 0
+        else
+            @ connected = 1
+        endif
+        sbg_random_graph -n0=$size -m=$m -c=$connected -d=0 \
+            -seed=$SEED_FILE -N=$class_size -name=$name
+    end
+end

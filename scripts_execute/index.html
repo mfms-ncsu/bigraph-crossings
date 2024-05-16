@@ -1,0 +1,127 @@
+<html> <head>
+<title>Stallmann, Brglez, Ghosh: Execution Scripts</title>
+</head>
+
+<body text=black bgcolor=white>
+<h2 align=center>Stallmann, Brglez, Ghosh: Execution Scripts</h2>
+
+<p>
+Directories corresponding to the bigraph classes are assumed to be in the
+directory <code>../data</code>
+(wrt the current directory), but may be changed by
+setting the environment variable <code>DATA_DIRECTORY.</code>
+
+<p>
+The binaries for various bigraph generating programs are assumed
+to be on the current path or in the directory specified by the environment
+variable <code>PROGRAM_DIRECTORY.</code>
+
+<p>
+All of these scripts have at least one argument specifying the bigraph
+classes on which the treatments are to be executed (and all will print a
+usage message if no arguments are supplied). This argument is either the
+name of the subdirectory for a single class --
+e.g. <code>GB_1_rnd2_08</code>
+if the
+treatments are to be run on the random bigraph class R(1,3830,2) (see
+description of naming conventions in the top-level
+<a href="../formats.html">README.formats</a>) -- or a quoted
+expression for multiple classes using Unix "wild cards" --
+e.g. <code>'GB_1_rnd*_0[1-8]'</code>
+for all random tree classes (the quotes are
+required to prevent premature shell expansion).
+
+
+<ul>
+<li><b><a href=sbg_run_all>sbg_run_all</a></b> 
+run_all - script to run all simple treatments on a specified class
+Usage: run_all <class name>
+where <class name> is a string specifying a set of subdirectories
+of the data directory (enclosed in single or double quotes to
+prevent globbing)
+<p>
+<li><b><a href=sbg_run_dot>sbg_run_dot</a></b> 
+run_dot - script to run the dot heuristic on a specified class
+Usage: run_dot <class name>
+where <class name> is a string specifying a set of subdirectories
+of the data directory (enclosed in single or double quotes to
+prevent globbing)
+<p>
+<li><b><a href=sbg_run_mla>sbg_run_mla</a></b> 
+run_mla - script to run the minimum linear arrangement algorithm on a class.
+<p>
+Usage: run_mla <var>class_name</var> [<var>number_of_subjects</var>]
+<p>
+<var>class_name</var> is a string specifying a set of subdirectories
+of the data directory (enclosed in single or double quotes to
+prevent globbing)
+<p>
+<li><b><a href=sbg_run_tr>sbg_run_tr</a></b> 
+run_tr - script to run a single treatment on a specified class
+Usage: run_tr <treatment> <class name> <iterations> [<# of subjects>]
+<treatment> is the two-digit treatment number, e.g. 04 or 19
+<class name> is a string specifying a set of subdirectories
+of the data directory (enclosed in single or double quotes to
+prevent globbing)
+<iterations> is the maximum number of iterations
+<p>
+<li><b><a href=sbg_run_tr23>sbg_run_tr23</a></b> 
+run_tr23 - run tr23 on a given bigraph type (assumes that the script
+tr23 is in the same directory as where we're running this
+script).
+Matt Stallmann, 21 Oct 1999
+<p>
+<li><b><a href=sbg_run_tr23_verbose>sbg_run_tr23_verbose</a></b> 
+run_tr23 - run tr23 on a given bigraph type (assumes that the script
+tr23 is in the same directory as where we're running this
+script).
+Note: this is the verbose version; it uses tr23_verbose instead of tr23
+Features of the verbose version - the final .ord files are saved (since
+it takes a long time to recreate them) and a .itr file shows the progress
+of tr23.
+Matt Stallmann, 21 Oct 1999
+<p>
+<li><b><a href=sbg_time_all>sbg_time_all</a></b> 
+time_all - script to do timing of all simple treatments on a specified class
+Usage: time_all <class name>
+where <class name> is a string specifying a set of subdirectories
+of the data directory (enclosed in single or double quotes to
+prevent globbing)
+<p>
+<li><b><a href=sbg_time_dot>sbg_time_dot</a></b> 
+time_dot - get timing stats for dot on a given bigraph type
+<p>
+<li><b><a href=sbg_time_tr23>sbg_time_tr23</a></b> 
+time_tr23 - get timing stats for tr23 on a given bigraph type (assumes
+that the script tr23_for_timing is in the same directory as
+where we're running this script).
+Matt Stallmann, 18 Mar 2001
+<p>
+<li><b><a href=sbg_tr23>sbg_tr23</a></b> 
+tr23 - a new treatment that alternates between barycenter and adaptive
+insertion
+Usage: tr23 dotfile initial_ord_file
+Matt Stallmann, 21 Oct 1999
+<p>
+<li><b><a href=sbg_tr23_for_timing>sbg_tr23_for_timing</a></b> 
+tr23_for_timing - outputs number of iterations for tr23
+Usage: tr23 dotfile initial_ord_file
+Matt Stallmann, 18 Mar 2001
+<p>
+<li><b><a href=sbg_tr23_verbose>sbg_tr23_verbose</a></b> 
+tr23 - a new treatment that alternates between barycenter and adaptive
+insertion (verbose version)
+Usage: tr23 dotfile initial_ord_file
+Matt Stallmann, 21 Oct 1999
+<p>
+</ul>
+
+<hr>
+<address><a href="http://www.csc.ncsu.edu/eos/users/m/mfms/www/">
+       Matthias Stallmann</a>
+       (<a href="mailto:mfms@csc.ncsu.edu">
+        <code>mfms@csc.ncsu.edu</code></a>)</address>
+<!-- hhmts start -->
+Tue Aug  6 13:09:50 EDT 2002
+<!-- hhmts end -->
+</body> </html>

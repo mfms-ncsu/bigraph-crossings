@@ -1,0 +1,78 @@
+<html> <head>
+<title>Stallmann, Brglez, Ghosh: Software Installation</title>
+</head>
+
+<body text=black bgcolor=white>
+<h2 align=center>Stallmann, Brglez, Ghosh: Software Installation</h2>
+
+<p>
+The software in this package is known to run on Solaris 2.5 and 2.6 and on
+Linux 2.4. A recent version of the gnu gcc/g++ compiler (2.8.1 or
+later) is assumed.
+
+<p>
+Installation requires about 5MB of disk space, or 3MB for the
+<code>bin</code> directory and 2MB for the rest. To run the example, you
+need at least another 8MB in the data directory.
+
+<p>
+The <code>sbg_install</code> script does the actual installation -- usage is
+<pre>
+   sbg_install [ root_directory [ bin_directory ] ]
+</pre>
+where
+<ul>
+  <a name="root"></a>
+  <li> <code>root_directory</code>
+		 is where directories bin, data, various scripts, and src
+		 will be installed as subdirectories (default, when there are no
+		 arguments, is the current directory)
+		 <a name="bin"></a>
+  <li> <code>bin_directory</code> is where the binary executables will be
+		 stored (default is the bin directory under root_directory)
+</ul>
+
+The script compiles all C and C++ programs, copies all executables into
+the bin directory and all scripts into the appropriate subdirectories of
+the root directory, creates the subdirectories data and processed, and
+creates a seed file for random generation of data in the default location
+(see <a href="scripts_generate">scripts_generate</a>)
+based on the process id and the current
+date and time.
+
+<p>
+After installation and before execution, you need to do one of the
+following:
+<ol>
+  <li> Give the command
+		 <pre>
+         setenv PROGRAM_DIRECTORY bin_directory
+		 </pre>
+      or its Bourne shell equivalent
+       <pre>
+         export PROGRAM_DIRECTORY=bin_directory
+       </pre>
+      before running any of the scripts; the script then automatically
+      incorporates <code>bin_directory</code> into the current path.
+
+  <li> Put the command
+		 <pre>
+         setenv PATH "bin_directory:$PATH"
+		 </pre>
+		 into your <code>.cshrc</code>
+		 file (or whatever the init file for your shell is).
+
+  <li> If the directory you specified as your bin_directory is already part
+		 of your default path, there is no need to do either of the above
+		 (before making such a decision, be sure that there are no name
+		 conflicts with existing programs -- our executables all have names
+		 beginning with sbg_ so this should not be a problem).
+</ol>
+
+<hr>
+<address><a href="http://www.csc.ncsu.edu/eos/users/m/mfms/www/">
+       Matthias Stallmann</a>
+       (<a href="mailto:Matt_Stallmann@ncsu.edu">
+        <code>Matt_Stallmann@ncsu.edu</code></a>)</address>
+<!-- hhmts start -->Last modified: Tue Sep 28 11:44:35 EDT 2004 <!-- hhmts end -->
+</body> </html>

@@ -1,0 +1,42 @@
+#!/bin/csh -f
+#: gen_hcube_rnd - create random graphs with the same signature as
+#:                 hypercubes
+
+# to change maximum rank, edit the foreach statement below
+set class_size = 32
+
+if( "`setenv | fgrep SEED_FILE`" == "" ) then
+    set SEED_FILE = $cwd/seed_file
+endif
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+    set DATA_DIRECTORY = $cwd/../data
+endif
+if( "`setenv | fgrep PROGRAM_DIRECTORY`" != "" ) then
+    set path = ( ${PROGRAM_DIRECTORY} $path )
+endif
+
+@ size = 2
+# INV: $size == 2^{$rank - 1}
+foreach rank (02 03 04 05 06 07 08 09)
+    @ n0 = $size
+    @ n1 = $size
+    @ m = $rank * $size
+    set name = "G_h_rnd0_${rank}"
+    echo "Creating $name"
+    if( -e $DATA_DIRECTORY/$name ) then
+        echo -n "Directory $name exists; remove it? "
+        set answer = $<
+        if( $answer == y ) then
+            rm -rf $DATA_DIRECTORY/$name
+        else
+            continue
+        endif
+    endif
+    mkdir $DATA_DIRECTORY/$name
+    cd $DATA_DIRECTORY/$name
+    sbg_random_graph -n0=$n0 -n1=$n1 -m=$m -name=$name\
+                            -seed=$SEED_FILE -d=0
+    @ size = 2 * $size
+end
+
+#  [Last modified: 2011 08 16 at 20:32:26 GMT]

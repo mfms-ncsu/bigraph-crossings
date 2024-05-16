@@ -1,0 +1,12 @@
+# Natural ordering for graph cube_16_scr_0001
+# seed: 61901 23471 15572
+# Ordering for layer 0
+0 { 
+ b0011 b1010 b0110 b1001 b0101 b1111 b0000 b1100
+} 
+# End of ordering for layer 0
+# Ordering for layer 1
+1 { 
+ a0010 a1110 a0100 a0001 a1000 a1011 a1101 a0111
+} 
+# End of ordering for layer 1

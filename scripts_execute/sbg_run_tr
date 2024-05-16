@@ -1,0 +1,48 @@
+#!/bin/csh -f
+##: run_tr - script to run a single treatment on a specified class
+#: Usage: run_tr <treatment> <class name> <iterations> [<# of subjects>]
+#:        <treatment> is the two-digit treatment number, e.g. 04 or 19
+#:        <class name> is a string specifying a set of subdirectories
+#:        of the data directory (enclosed in single or double quotes to
+#:        prevent globbing)
+#:        <iterations> is the maximum number of iterations
+
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+     set DATA_DIRECTORY = $cwd/../data
+endif
+if( "`setenv | fgrep PROGRAM_DIRECTORY`" != "" ) then
+     set path = ( ${PROGRAM_DIRECTORY} $path )
+endif
+
+if( $#argv < 3 || $#argv > 4 ) then
+    echo "Usage: $0 <treatment> <class name> <iterations> [<# of subjects>]"
+    echo "<class name> is a string specifying a set of subdirectories"
+    echo "of the data directory (enclosed in single or double quotes to"
+    echo "prevent globbing)"
+    exit( 1 )
+endif
+
+set treatment = $1
+set iterations = $3
+cd $DATA_DIRECTORY
+set class_list = `glob $2`
+if ( $#argv == 4 ) then
+    @ subjects = $4
+else
+    @ subjects = 64    # or a suitably large number
+endif
+foreach dir ( $class_list )
+    cd $DATA_DIRECTORY/$dir
+    set results = "EXP_TR${treatment}:${iterations}_$subjects"
+    if( -e $results ) mv $results $results.bak
+    touch $results
+    @ count_subjects = 0
+    foreach file ( *.dot )
+        set base = `basename $file .dot`
+        sbg_iterate -tr=$treatment -iterations=$iterations $file $file.ORD
+        sbg_cn_eval $file ${base}_tr00$treatment.ord >> $results
+        rm ${base}_tr00$treatment.ord
+        @ count_subjects = $count_subjects + 1
+        if ( $count_subjects >= $subjects ) break
+    end
+end

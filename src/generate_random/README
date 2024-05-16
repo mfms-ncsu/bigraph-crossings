@@ -1,0 +1,52 @@
+
+               Source for Program to Generate Random Bigraphs
+                                      
+     * CmdLine.cxx - implementation of command-line parser
+     * CmdLine.hxx - header for a class that parses the command line
+       (uses classes StrQueue and StrTable)
+     * Graph.cxx - implementation of Graph ADT
+     * Graph.hxx - header for Graph ADT (used for generating random
+       connected graphs but may have other applications later);
+       undirected
+     * IntIterator.cxx - based on recIterator.C in Perry/Levin, Section
+       12.7
+     * IntIterator.hxx - based on recIterator.H in Perry/Levin, Section
+       12.7
+     * IntList.cxx - based on recList.C in Perry/Levin, Section 12.7
+     * IntList.hxx - based on recList.H in Perry/Levin, Section 12.7
+     * IntNode.cxx based on recNode.C in Perry/Levin, Section 12.7
+     * IntNode.hxx - based on recNode.H in Perry/Levin, Section 12.7
+     * Rand.hxx - definition of a class of random number streams; each
+       stream can be initialized from an istream or an array of 3 short
+       int's and (optionally) written to an ostream via the overloaded
+       operator. Uses rand48 library.
+     * StrNode.cxx (from Perry/Levin, chapter 12)
+     * StrNode.hxx (modified from strNode.H in Perry/Levin, chapter 12)
+     * StrQueue.cxx (from Perry/Levin, chapter 12)
+     * StrQueue.hxx (from Perry/Levin, chapter 12, uses class StrNode)
+     * StrTabNode.cxx (modified from telNode.H in Perry/Levin, chapter
+       12)
+     * StrTabNode.hxx (modified from telNode.H in Perry/Levin, chapter
+       12)
+     * StrTable.cxx (a modified version of telDirectory.C from
+       Perry/Levin, chapter 12)
+     * StrTable.hxx (a modified version of telDirectory.H from
+       Perry/Levin, chapter 12; uses class StrTabNode)
+     * defs.h - definitions common to all source files for randomBiGraph
+     * dot.cxx - functions that read "dot" format for graphs
+     * dot.h - module for reading "dot" files
+     * ord.cxx - implementation of utility functions that read and write
+       .ord files (node ordering on layers of a graph)
+     * ord.h - header for utility functions that read and write .ord
+       files (node ordering on layers of a graph)
+     * randomBiGraph.cxx - program to generate a random connected
+       bipartite graph with a given number of nodes specified for each
+       side and a given number of edges
+     * Makefile for programs generating random bipartite graphs in .dot
+       format
+     _________________________________________________________________
+   
+   
+    Matthias Stallmann ( mfms@csc.ncsu.edu)
+    
+   Last modified: Thu Mar 22 12:05:42 2001

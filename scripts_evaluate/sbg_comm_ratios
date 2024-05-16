@@ -1,0 +1,58 @@
+#! /bin/tcsh -f
+#: comm_ratios - creates a data file suitable for DeltaGraph, plotting
+#:               ratios of crossing numbers between two treatments for
+#:               butterflies, hypercubes, and grids
+# Matt Stallmann, 11 May 2000
+
+if( "`setenv | fgrep PROCESSED_DIRECTORY`" == "" ) then
+     set PROCESSED_DIRECTORY = $cwd/../processed
+endif
+
+if( $#argv < 2 || $#argv > 3 ) then
+    echo "Usage: $0 <treatment 1> <treatment 2> [ min ]"
+    echo "to get ratio of mean crossings for treatment 1 vs. treatment 2"
+    echo "(the third argument is included if min instead of mean is to be"
+    echo " used - also implies scr class, and mean for treatment 1 if both"
+    echo " treatments are the same)"
+    exit( 1 )
+endif
+
+set tr1 = $1
+set tr2 = $2
+set field1 = 3
+set field2 = 3
+set suffix =
+if( $#argv == 3 ) then
+    set suffix = "_min"
+    set field2 = 2
+    if( $tr1 != $tr2 ) then
+        set field1 = 2
+    endif
+endif
+
+set output_file = $PROCESSED_DIRECTORY/GC_${tr1}_${tr2}$suffix 
+
+foreach class ( b h r )
+    fgrep $tr1 $PROCESSED_DIRECTORY/SUMMARY_G_${class}_[01][0-9] \
+        | cut -f $field1 > /tmp/tr1_$$
+    fgrep $tr2 $PROCESSED_DIRECTORY/SUMMARY_G_${class}_[01][0-9] \
+        | cut -f $field2 > /tmp/tr2_$$
+    paste /tmp/tr1_$$ /tmp/tr2_$$ | awk -f quotient.awk \
+        > /tmp/${class}_$$
+    rm /tmp/tr?_$$
+end
+
+# separate rectangular grids from square grids (not used currently)
+cat r_edges | paste - - | cut -f 1 > /tmp/sg_edges_$$
+cat r_edges | paste - - | cut -f 2 > /tmp/rg_edges_$$
+cat /tmp/r_$$ | paste - - | cut -f 1 > /tmp/sg_$$
+cat /tmp/r_$$ | paste - - | cut -f 2 > /tmp/rg_$$
+
+echo 'butterflies' 'hypercubes' 'grids' \
+    | awk '{ printf "%s\t%s\t%s\t%s\t%s\t%s\n", $1, $1, $2, $2, $3, $3; }' \
+    > $output_file
+
+paste edges_b /tmp/b_$$ edges_h /tmp/h_$$ edges_r /tmp/r_$$ \
+    >> $output_file
+rm /tmp/[bhr]_$$ /tmp/[rs]g_$$ /tmp/[rs]g_edges_$$
+

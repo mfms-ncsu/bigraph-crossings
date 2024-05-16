@@ -1,0 +1,96 @@
+
+             Stallmann, Brglez, Ghosh: Data Generation Scripts
+                                      
+   This directory contains class generation scripts for the paper
+   "Heuristics, Experimental Subjects, and Treatment Evaluation in
+   Bigraph Crossing Minimization", by M. Stallmann, F. Brglez, and D.
+   Ghosh. 
+     _________________________________________________________________
+   
+   These generation scripts require the presence of a seed file
+   containing 3 non-negative integers < 2^16. These are used to construct
+   the seed for Default name for the seed file is seed_file in the
+   current directory, but may be changed by setting the environment
+   variable SEED_FILE prior to running the script.
+   
+   Directories corresponding to the bigraph classes are installed in the
+   directory ../data (wrt the current directory), but may be changed by
+   setting the environment variable DATA_DIRECTORY.
+   
+   Finally, the binaries for various bigraph generating programs are
+   assumed to be on the current path or in the directory specified by the
+   environment variable PROGRAM_DIRECTORY.
+   
+   The scripts are as follows:
+     * sbg_gen_[0-2][01]
+       The script sbg_gen_xy creates all isomorphism classes for the
+       graph type G[xy,k]. To create all the VLSI graphs, simply do (in
+       csh)
+     % foreach type ( 00 01 10 11 20 21 )
+     foreach? sbg_gen_$type
+          foreach? end 
+          + sbg_gen_00
+          + sbg_gen_01
+          + sbg_gen_10
+          + sbg_gen_11
+          + sbg_gen_20
+          + sbg_gen_21
+          + sbg_gen_a1 - create random tree classes with same number of
+            cell and net nodes and same number of edges as the G_{xy,k}
+            graphs; dimensions range from 1 to 2.
+          + sbg_gen_abd - generate random bigraphs of a specified type
+            Usage: gen_abd [-a density] [-b balance] [-d dimension] [-x]
+            [-r rank] [-N number of subjects]
+            where
+            density = # of edges / (# of nodes - 1) (default = 1)
+            balance = # of side 1 nodes / # of side 0 nodes (1)
+            dimension = 1 + e, where spanning tree is constructed using
+            distance between points in a 1 x e rectangle if e is in the
+            interval [0,1]; otherwise, spanning tree is based on
+            uniformly random point-to-point distances (0)
+            the -x option is present if graphs are not necessarily
+            connected,
+            rank = highest rank (rank 1 implies 20 edges; after that each
+            rank doubles the number of edges and adds 10) (default = 8)
+            number of subjects = number of subjects per class (default =
+            32)
+            At least one argument must be explicitly specified.
+          + sbg_gen_bfly - create butterflies only
+          + sbg_gen_bfly_rnd - create random graphs with the same
+            signature as butterfly graphs
+          + sbg_gen_grid - create grids (meshes) only
+          + sbg_gen_grid_rnd gen_grid_rnd - create random graphs with the
+            same signature as grids (meshes)
+          + sbg_gen_hcube - create hypercubes only
+          + sbg_gen_hcube_rnd - create random graphs with the same
+            signature as hypercubes
+          + sbg_gen_iso - script to create isomorphism classes from
+            representatives of a specified collection of random classes
+            Usage: sbg_gen_iso class-name [ individual ]
+            where class-name is a string specifying a set of
+            subdirectories of the data directory (enclosed in single or
+            double quotes to prevent globbing) and individual is an
+            integer specifying the particular representative of a class
+            to use (default = 1); the class name of the new iso class has
+            a suffix _scrindividual
+          + sbg_gen_jm - create graphs corresponding to those reported in
+            the Juenger and Mutzel paper (plus larger ones of the same
+            type and connected graphs to match each class)
+          + sbg_generate - generate a class of random bigraphs in which
+            sizes increase by an exact factor of 2 (as opposed to the 2x
+            + 10 increase used in the JEA paper. Arguments are the same
+            as those used by sbg_gen_abd, except that the flags -L and -U
+            are used to specify the smallest and largest number of edges,
+            respectively. Defaults are 64 and 2048.
+          + sbg_harvest_seeds - retrieve seed information used to
+            generate the specified classes
+            Usage: sbg_harvest_seeds class-name output-file
+            where class-name is a string specifying a set of
+            subdirectories of the data directory (enclosed in single or
+            double quotes to prevent globbing) and output-file is where
+            the class names and the seeds are stored.
+         _____________________________________________________________
+       
+       
+    Matthias Stallmann ( mfms@csc.ncsu.edu)
+       Last modified: Fri May 4 13:04:19 2001

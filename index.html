@@ -1,0 +1,197 @@
+<html> <head>
+<title>Software for
+Stallmann, Brglez, Ghosh: "Heuristics, Experimental..."</title>
+</head>
+
+<body text=black bgcolor=white>
+<h2 align=center>Software for
+Stallmann, Brglez, Ghosh: "Heuristics, Experimental..."</h2>
+<h3 align=center>
+SBG_Software, Version 1.3, released 2007/08/09<br>
+Bipartite Graph Crossing Minimization</h3>
+<p align=center><a href="#" target="download">DOWNLOAD</a></p>
+<h4>
+Modifications since version 1.2
+</h4>
+
+<ul>
+  <li>
+       It is now possible to download and use the software for crossing
+       minimization in standalone fashion, without all the experimental
+       infrastructure.  To do this, simply download
+       <a href="src/treatments.tar.gz">
+       <code>src/treatments.tar.gz</code></a>, 
+       unpack it and read the instructions on the index page
+       <code>html/index.html</code>.
+       The <code>treatments</code> directory now has a subdirectory called
+       <code>Examples</code> with a set of small graph instances that can be
+       tested to make sure the software is working properly.  A
+       <a href="src/treatments/Examples/README.txt">README.txt</a> file
+       explains further.
+  <li>
+       Reintroduced treatment 23 so that all experiments from the paper can
+       be replicated (it was removed in versions 1.1 and 1.2 because it was
+       inefficient and only gave significantly better results than treatment
+       17 on random trees, where a minimum linear arrangement would give
+       optimal solutions).
+  <li>
+       Cleaned up some of the code for treatments so that the control
+       structure is more transparent.
+  <li>
+       Added GPL copyright information and doxygen documentation at the file
+       level. The copyright statements on individual files do
+       <strong>not</strong> supercede the ACM copyright below.
+</ul>
+<h4>Other modifications since original JEA version:
+</h4>
+<ul>
+  <li>
+    Code has been updated to compile under gcc 4.0; includes of deprecated
+    headers have been replaced (thanks to Ron de Bruijn, Utrecht University,
+    The Netherlands, for pointing out the
+    need for this).
+  </li>
+  <li>
+  The <code>dot</code> software is no longer a part of this release (it
+  does not compile under many newer gcc compilers).
+  </li>
+  <li>
+  Fixed an uninitialized pointer that caused problems on some platforms,
+  particularly Linux
+  (Special thanks to Waseem Ahmad, UIC, for pointing out the problem).
+  </li>
+  <li>
+  <code>sbg_run_all</code> is now more verbose (tells you what it's doing
+  so that the example is more transparent).
+  </li>
+</ul>
+<center>
+</center>
+
+<hr>
+<center>
+***
+<a href="install.html">INSTALLATION</a>
+***
+<a href="execute.html">EXECUTION</a>
+***
+<a href="example.html">EXAMPLE</a> (to illustrate use of scripts)
+***
+<a href="formats.html">DATA CONVENTIONS AND FORMATS</a>
+***
+</center>
+<hr>
+
+<p>
+This is the table of contents for
+the software used in the experiments for
+<a href="http://www.jea.acm.org/2001/StallmannHeuristics/">
+Heuristics, Experimental Subjects, and Treatment Evaluation
+in Bigraph Crossing Minimization,</a>
+by M.&nbsp;Stallmann, F.&nbsp;Brglez, and D.&nbsp;Ghosh, in JEA 2001 <a
+href="2001-JEA-Stallmann.bib" >(BibTeX entry)</a>.
+
+<p>
+
+Separate files for main topics are accessible via links below. All
+<code>README</code> files are generated from <code>.html</code> files
+using
+<pre>
+     lynx -dump -nolist file.html
+</pre>
+An <code>index.html</code> file generates a plain <code>README</code>
+file. Any other <code>file.html</code> generates <code>README.file</code>.
+The <code>README</code> (<code>.html</code>) files for the main topics are
+<a href="install.html"><code>README.install</code></a> (installation),
+<a href="execute.html"><code>README.execute</code></a>
+(instructions for executing programs),
+<a href="formats.html"><code>README.formats</code></a>
+(filename conventions and data formats), and
+<a href="example.html"><code>README.example</code></a>
+(an example illustrating the use of our various scripts).
+
+<p>
+<strong>COPYRIGHT (C) 2001,2007 Matthias Stallmann, Debabrata Ghosh</strong><br>
+This software is freely available for academic teaching and research under
+two conditions:
+<ol>
+  <li> The above paper should be cited in any published work that makes use
+		 of the software.
+  <li> Any bugs or modifications should be reported to Matt Stallmann
+		 <a href="mailto:Matt_Stallmann@ncsu.edu">
+		 <code>(Matt_Stallmann@ncsu.edu).</code></a>
+  <li> Copies of the software or any part of it are not distributed for
+ profit or commercial advantage.
+  <li> The ACM copyright notice printed below be included on the home page of
+ any distribution that includes this software.
+</ol>
+
+<p>
+<hr>
+ACM Copyright Notice:<br>
+<em>Permission to make digital or hard copies of part or all of this work for
+personal or classroom use is granted without fee provided that copies are not
+made or distributed for profit or commercial advantage and that copies bear
+this notice and the full citation on the first page.  Copyrights for
+componenets of this work owned by others than ACM must be honored.
+Abstracting with credit is permitted.  To copy otherwise, to republish, to
+post on servers or to redistribute to lists, requires prior specific
+permission and/or a fee.</em>
+<hr>
+<p>
+
+<a name="download"></a>The software itself can be downloaded at
+<a href="../SBG_Software.tar.gz">SBG_Software.tar.gz,</a> which,
+when unpacked, creates a directory called <code>SBG_Software.</code>
+<h3>Subdirectories</h3>
+
+<ul>
+  <li> <a href="bin">bin</a>
+		 - where binary executables are stored after installation, unless
+		 otherwise specified; all executables have names beginning with the
+		 prefix sbg_ (first initials of the authors of the paper). Before
+		 installation, this directory should be empty.
+
+  <li> <a href="data">data</a>
+		 - where experimental data and results are stored; this can be
+		 modified by setting the DATA_DIRECTORY environment variable before
+		 running the appropriate scripts (see README files in the
+		 subdirectories cotaining scripts) -- initially empty.
+
+  <li> <a href="DATA_SUMMARIES">DATA_SUMMARIES</a>
+		 - where summary data from the JEA paper is stored.
+		 
+  <li> <a href="processed">processed</a>
+		 - contains data summary files and other files that can be used
+		 to generate charts with standard spreadsheet programs (see README in
+		 scripts_evaluate for more details) -- initially empty.
+
+  <li> <a href="scripts_generate/index.html">scripts_generate</a>
+		 - scripts that generate bigraph classes for the
+		 experiments.
+
+  <li> <a href="scripts_execute/index.html">scripts_execute</a>
+		 - scripts that run a specified treatment(s) on specified
+		 bigraph classes.
+
+  <li> <a href="scripts_evaluate/index.html">scripts_evaluate</a>
+		 - scripts that collect experimental data and package it
+		 in a form that can be used by charting software.
+
+  <li> <a href="src/index.html">src</a>
+       - source code for the binary executables.
+</ul>
+
+<hr>
+<address><a href="http://www.csc.ncsu.edu/eos/users/m/mfms/www/">
+       Matthias Stallmann</a>
+       (<a href="mailto:Matt_Stallmann@ncsu.edu">
+        <code>Matt_Stallmann@ncsu.edu</code></a>)</address>
+<!-- hhmts start -->Last modified: Tue Sep 28 13:09:34 EDT 2004 <!-- hhmts end -->
+</body> </html>
+
+<!---
+Local Variables: ***
+mode:html-helper ***
+End: ***
+--->

@@ -1,0 +1,35 @@
+#!/bin/csh -f
+##: time_all - script to do timing of all simple treatments on a specified class
+#: Usage: time_all <class name>
+#:        where <class name> is a string specifying a set of subdirectories
+#:        of the data directory (enclosed in single or double quotes to
+#:        prevent globbing)
+
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+     set DATA_DIRECTORY = $cwd/../data
+endif
+if( "`setenv | fgrep PROGRAM_DIRECTORY`" != "" ) then
+     set path = ( ${PROGRAM_DIRECTORY} $path )
+endif
+
+if( $#argv != 1 ) then
+    echo "Usage: $0 <class name>"
+    echo "<class name> is a string specifying a set of subdirectories"
+    echo "of the data directory (enclosed in single or double quotes to"
+    echo "prevent globbing)"
+    exit( 1 )
+endif
+
+cd $DATA_DIRECTORY
+set class_list = `glob $1`
+foreach dir ( $class_list )
+    cd $DATA_DIRECTORY/$dir
+    foreach treatment ( 01 03 04 15 17 25 30 )
+        if( -e TIMING_TR$treatment ) \
+            mv TIMING_TR$treatment TIMING_TR$treatment.bak
+        touch TIMING_TR$treatment
+        foreach file ( *.dot )
+            sbg_time -tr=$treatment $file $file.ORD >> TIMING_TR$treatment
+        end
+    end
+end

@@ -1,0 +1,10 @@
+# "scrambled" order for cycle of length 4 -- doesn't matter
+0 {
+  a1
+  a2
+}
+
+1 {
+  b2
+  b1
+}

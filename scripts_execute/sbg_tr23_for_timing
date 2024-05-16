@@ -1,0 +1,31 @@
+#! /bin/csh -f
+##: tr23_for_timing - outputs number of iterations for tr23
+#: Usage: tr23 dotfile initial_ord_file
+# Matt Stallmann, 18 Mar 2001
+
+if( "`setenv | fgrep PROGRAM_DIRECTORY`" != "" ) then
+     set path = ( ${PROGRAM_DIRECTORY} $path )
+endif
+
+set itr = 1024         # number of iterations of adaptive insertion
+set dot_file = $1
+set initial_ord = $2
+set base_name = `basename $1 .dot`
+
+sbg_treat -tr=14 $dot_file $initial_ord
+set new_ord = ${base_name}_tr0014.ord 
+set new_crossings = `sbg_cn_eval $dot_file $new_ord | cut -f 2`
+@ crossings = $new_crossings + 1 # guarantee at least one loop iteration 
+set iterations = 0
+while( $new_crossings < $crossings )
+    @ crossings = $new_crossings
+    set ord_file = $new_ord
+    sbg_treat -tr=03 -iterations=2048 $dot_file $ord_file
+    set new_ord = ${base_name}_tr0003.ord
+    sbg_treat -tr=04 -iterations=$itr $dot_file $new_ord
+    set new_ord = ${base_name}_tr0004.ord
+    set new_crossings = `sbg_cn_eval $dot_file $new_ord | cut -f 2`
+    @ iterations += 1
+end
+rm ${base_name}_tr00[01][34].ord
+echo ${base_name} $iterations

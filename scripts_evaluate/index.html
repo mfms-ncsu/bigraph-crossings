@@ -1,0 +1,121 @@
+<html> <head>
+<title>Stallmann, Brglez, Ghosh: Data Evaluation Scripts</title>
+</head>
+
+<body text=black bgcolor=white>
+<h2 align=center>Stallmann, Brglez, Ghosh: Data Evaluation Scripts</h2>
+
+These scripts are in two categories.
+The first category takes raw data from directories containing the
+experimental subjects and summarizes the data. The raw data is in files
+created by the execution scripts, files named <code>TR??</code> that record
+actual crossing numbers for each subject treated by treatment
+<code>??</code> or files named <code>TIMING_TR??</code> that record time
+and number of iterations for the treatment in question.
+Each of these scripts has a single argument, which is a string called
+<var>class-name</var> denoting the
+set of subdirectories from which to gather data. In general this string
+will contain globbing information, such as <code>GB_*_rnd0_0?</code>, and
+needs to be put in quotes.
+
+<ul>
+<li><b><a href=sbg_confidence_intervals>sbg_confidence_intervals</a></b> -
+	  script to produce 95% confidence intervals for data 
+	  in TR?? files in specified class directories; number of subjects can
+	  be set along with relevant t-table data
+	  <br>
+	  Usage: <code>sbg_confidence_intervals</code> <var>class-name</var>
+	  <br>
+<li><b><a href=sbg_itr_summaries>sbg_itr_summaries</a></b> - script to
+	  generate summaries of iteration data from 
+	  TIMING_TR?? files in specified class directories
+	  <br>
+	  Usage: <code>sbg_itr_summaries</code> <var>class-name</var>
+	  <br>
+<li><b><a href=sbg_summaries>sbg_summaries</a></b> to generate summaries
+	  from TR?? files in specified class 
+	  directories (is careful to use the last 64 -- or whatever
+	  the appropriate class size -- data entries; there may be 65
+	  in case of an isomorphic class, the first being biased
+	  because of the way it was generated.
+	  <br>
+	  Usage: <code>sbg_summaries</code> <var>class-name</var>
+	  <br>
+<li><b><a href=sbg_summary2ci>sbg_summary2ci</a></b> to generate confidence
+	  intervals from existing <code>SUMMARY</code> files; uses <a
+	  href="confidence.awk"><code>confidence.awk</code></a> to process the
+	  data (can set the number of subjects). 
+	  <br>
+	  Usage: <code>sbg_summary2ci</code> <var>class-name</var>
+	  <br>
+<li><b><a href=sbg_timing_summaries>sbg_timing_summaries</a></b>  - script
+	  to generate summaries from TIMING_TR?? files
+	  in specified class directories
+<br>
+	  Usage: <code>sbg_timing_summaries</code> <var>class-name</var>
+	  <br>
+</ul>
+
+The second type of script generates tabular data appropriate for use in a
+spreadsheet program. We used DeltaGraph, but others would work equally
+well.
+
+<p>
+Most of these scripts
+require two treatments as input -- these are given on the command line in
+the form <code>tr??,</code> or <code>dot</code>
+in the special case of the dot treatment. Most also
+allow an additional argument, whose presence causes the minimum rather
+than the average to be used when looking at crossing number statistics
+for a class. The optional argument also causes either <code>_scr</code> or
+<code>_min</code>, as
+appropriate, to be added as a suffix to the output file name. When random
+classes are involved, the corresponding iso classes are used when the
+optional argument is present.  The other scripts all require that
+sbg_summaries has already been executed for the relevant classes.
+
+<ul>
+<li><b><a href=decomposition.awk>decomposition.awk</a></b>  - an awk
+	  program for creating the DeltaGraph input for 
+	  the decomposition diagram representation of a particular bigraph
+	  class (for use with csh script <code>sbg_decomposition</code>)
+<li><b>edges_[bhrx]</b> - files giving the number of edges for various sizes
+   of butterflies, hypercubes, grids, and vlsi graphs, respectively
+   (edges_x also gives the sizes used for all random graph classes, except
+   those specifically based on communication graphs).
+<li><b><a href=quotient.awk>quotient.awk</a></b>  - transforms two fields
+	  to one as by taking their quotient (x if undefined, 1 in the special
+	  case of 0/0).
+<li><b><a href=sbg_comm_ratios>sbg_comm_ratios</a></b> - creates a data
+	  file suitable for DeltaGraph, plotting
+	  ratios of crossing numbers between two treatments for
+	  butterflies, hypercubes, and grids
+<li><b><a href=sbg_decomposition>sbg_decomposition</a></b> - creates
+	  DeltaGraph input for the decomposition diagrams
+	  representing a single size class (uses <code>decomposition.awk</code>)
+	  <br>
+	  Usage: <code>sbg_decomposition</code> <var>class</var> [<code>min</code>]
+	  <br>
+<li><b><a href=sbg_graph_ratios>sbg_graph_ratios</a></b> - creates a data
+	  file suitable for DeltaGraph, plotting 
+	  ratios of crossing numbers between two treatments for
+	  random graphs of various density factors.
+<li><b><a href=sbg_tree_ratios>sbg_tree_ratios</a></b> - creates a data
+	  file suitable for DeltaGraph, plotting 
+	  ratios of crossing numbers between two treatments for
+	  trees of various dimensions.
+<li><b><a href=sbg_vlsi_ratios>sbg_vlsi_ratios</a></b> - creates a data
+	  file suitable for DeltaGraph, plotting
+	  ratios of crossing numbers between two treatments for
+	  all VLSI graphs.
+</ul>
+
+<hr>
+<address><a href="http://www.csc.ncsu.edu/eos/users/m/mfms/www/">
+       Matthias Stallmann</a>
+       (<a href="mailto:mfms@csc.ncsu.edu">
+        <code>mfms@csc.ncsu.edu</code></a>)</address>
+<!-- hhmts start -->
+Last modified: Mon Apr  9 13:53:19 2001
+<!-- hhmts end -->
+</body> </html>

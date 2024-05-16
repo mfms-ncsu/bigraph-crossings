@@ -1,0 +1,13 @@
+#: Ordering for graph hc_32
+#: Treatment 0017
+
+0 { # start of ordering for layer 0
+b10111 b11011 b11101 b11110 b01111 b10001 b10010 b00011 b10100 b00101
+b00110 b11000 b01001 b01010 b01100 b00000
+} # end of ordering for layer 0
+
+1 { # start of ordering for layer 1
+a11111 a10011 a10101 a10110 a00111 a11001 a11010 a01011 a11100 a01101
+a01110 a10000 a00001 a00010 a00100 a01000
+} # end of ordering for layer 1
+

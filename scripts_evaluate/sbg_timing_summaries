@@ -1,0 +1,53 @@
+#!/bin/csh -f
+#: timing_summaries - script to generate summaries from TIMING_TR?? files
+#:             in specified class directories
+#: Usage: timing_summaries <class name>
+#:        where <class name> is a string specifying a set of subdirectories
+#:        of the data directory (enclosed in single or double quotes to
+#:        prevent globbing)
+# Matt Stallmann, 19 Mar 2001
+
+set class_size = 64
+set tr23_class_size = 8         # smaller sample for tr23 because of large
+                                # execution time
+
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+     set DATA_DIRECTORY = $cwd/../data
+endif
+if( "`setenv | fgrep PROCESSED_DIRECTORY`" == "" ) then
+     set PROCESSED_DIRECTORY = $cwd/../processed
+endif
+if( "`setenv | fgrep PROGRAM_DIRECTORY`" != "" ) then
+     set path = ( ${PROGRAM_DIRECTORY} $path )
+endif
+
+if( $#argv != 1 ) then
+    echo "Usage: $0 <class name>"
+    echo "<class name> is a string specifying a set of subdirectories"
+    echo "of the data directory (enclosed in single or double quotes to"
+    echo "prevent globbing)"
+    exit( 1 )
+endif
+
+cd $DATA_DIRECTORY
+set class_list = `glob $1`
+foreach dir ( $class_list )
+    echo "Generating summary for $dir"
+    set summary = $PROCESSED_DIRECTORY/TIMING_SUMMARY_$dir
+    if( -e $summary ) then
+        echo -n "Warning: TIMING_SUMMARY_$dir already exists. Delete it? "
+        if ( $< != "y" ) continue
+        rm $summary
+    endif
+    cd $DATA_DIRECTORY/$dir
+    touch $summary
+    foreach data_file ( TIMING_TR* )
+        set treatment = `echo $data_file | sed 's/TIMING_TR//'`
+        set legend = tr$treatment
+        if( $treatment == 12 ) set legend = dot
+        echo $legend | awk '{ printf "%s\t", $1; }' >> $summary
+        set local_class_size = $class_size
+        if( $treatment == 23 ) set local_class_size = $tr23_class_size
+        tail -$local_class_size $data_file | cut -f 2 | sbg_fstats >> $summary
+    end
+end

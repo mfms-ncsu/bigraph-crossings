@@ -1,0 +1,26 @@
+<p>
+Directories corresponding to the bigraph classes are assumed to be in the
+directory <code>../data</code>
+(wrt the current directory), but may be changed by
+setting the environment variable <code>DATA_DIRECTORY.</code>
+
+<p>
+The binaries for various bigraph generating programs are assumed
+to be on the current path or in the directory specified by the environment
+variable <code>PROGRAM_DIRECTORY.</code>
+
+<p>
+All of these scripts have at least one argument specifying the bigraph
+classes on which the treatments are to be executed (and all will print a
+usage message if no arguments are supplied). This argument is either the
+name of the subdirectory for a single class --
+e.g. <code>GB_1_rnd2_08</code>
+if the
+treatments are to be run on the random bigraph class R(1,3830,2) (see
+description of naming conventions in the top-level
+<a href="../formats.html">README.formats</a>) -- or a quoted
+expression for multiple classes using Unix "wild cards" --
+e.g. <code>'GB_1_rnd*_0[1-8]'</code>
+for all random tree classes (the quotes are
+required to prevent premature shell expansion).
+

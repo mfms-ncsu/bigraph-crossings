@@ -1,0 +1,110 @@
+#! /bin/csh -f
+## INSTALL - installs all software and data directories used in the paper
+##   "Heuristics, Experimental Subjects, and Treatment Evaluation for
+##   Bigraph Crossing Minimization", by M. Stallmann, F. Brglez, and
+##   D. Ghosh.
+## <br>Usage: INSTALL [ root_directory [ bin_directory ] ]
+## NEEDS TO BE EXECUTED FROM THE DIRECTORY IN WHICH IT ORIGINALLY APPEARED.
+## @author Matthias Stallmann, 14 Jul 2000
+## <br>$Revision: 1.1.1.1 $, $Author: mfms $, $Date: 2005/03/21 22:35:07 $
+
+## 2004/09/28 -- omitted installation of dot completely (does not work on
+## most systems any more (mfms)
+
+# figure out main directories from the other arguments, if any
+set number_of_arguments = $#argv
+
+if( $number_of_arguments > 0 ) then
+    set root_directory = $1
+    if( $number_of_arguments > 1 ) then
+        set bin_directory = $2
+        if( $number_of_arguments > 2 ) then
+            echo "Too many arguments."
+            echo "Usage: INSTALL [ root_directory [ bin_directory ] ]"
+            exit( 1 )
+        endif
+    else
+        set bin_directory = $root_directory/bin
+    endif
+else
+    set root_directory = $cwd
+    set bin_directory = $cwd/bin
+endif
+
+echo "Root directory = $root_directory"
+echo "Binaries directory = $bin_directory"
+
+# create root and bin directories if they don't already exist
+
+if( ! -e $root_directory ) then
+    mkdir -p $root_directory
+endif
+if( ! -e $bin_directory ) then
+    mkdir -p $bin_directory
+endif
+
+
+# copy important subdirectories to root directory if necessary, and go there
+
+if( $root_directory != $cwd ) then
+    cp -r README scripts_* src $root_directory
+    mkdir $root_directory/data
+    mkdir $root_directory/processed
+    cd $root_directory
+endif
+
+# create a default seed file for data generation scripts (based on process
+# and current day/time)
+
+set seed_file = scripts_generate/seed_file
+if( -e $seed_file ) rm $seed_file
+touch $seed_file
+echo $$ | awk '{ printf "%d\t", $1; }' >> $seed_file    # process number
+date +'%j' | awk '{ printf "%d\t", $1; }' >> $seed_file # day of year
+@ seconds = `date +'%M'` * 60 + `date +'%S'`            # second of hour
+echo $seconds >> $seed_file
+
+# compile all programs and rename them (with sbg_ prefix) while moving them
+# to the bin directory
+
+cd $root_directory/src/generate_iso
+echo "cd $root_directory/src/generate_iso"
+gcc -g -O2 -lm gen_ref.c -o gen_ref
+echo "gcc -g -O2 -lm gen_ref.c -o gen_ref"
+mv gen_ref $bin_directory/sbg_vlsi_graph
+echo "mv gen_ref $bin_directory/sbg_vlsi_graph"
+gcc -g -O2 -lm gen_grid_bfly_hcube.c -o gen_grid_bfly_hcube
+echo "gcc -g -O2 -lm gen_grid_bfly_hcube.c -o gen_grid_bfly_hcube"
+mv gen_grid_bfly_hcube $bin_directory/sbg_comm_graph
+echo "mv gen_grid_bfly_hcube $bin_directory/sbg_comm_graph"
+
+cd $root_directory/src/generate_random
+echo "cd $root_directory/src/generate_random"
+make randomBiGraph
+mv randomBiGraph $bin_directory/sbg_random_graph
+echo "mv randomBiGraph $bin_directory/sbg_random_graph"
+make clean
+
+cd $root_directory/src/scramble
+echo "cd $root_directory/src/scramble"
+gcc -lm scramble_dot.c -o scramble_dot
+echo "gcc -lm scramble_dot.c -o scramble_dot"
+mv scramble_dot $bin_directory/sbg_scramble
+echo "mv scramble_dot $bin_directory/sbg_scramble"
+
+cd $root_directory/src/treatments
+echo "cd $root_directory/src/treatments"
+make all
+mv sbg_cn_eval $bin_directory
+echo "mv sbg_cn_eval $bin_directory"
+mv fstats $bin_directory/sbg_fstats
+echo "mv fstats $bin_directory/sbg_fstats"
+mv gstats $bin_directory/sbg_gstats
+echo "mv gstats $bin_directory/sbg_gstats"
+mv sbg_treat $bin_directory
+echo "mv sbg_treat $bin_directory"
+make clean
+
+echo Installation done.
+
+#  [Last modified: 2007 08 08 at 21:02:58 GMT]

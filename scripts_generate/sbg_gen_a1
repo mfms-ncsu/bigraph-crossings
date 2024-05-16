@@ -1,0 +1,48 @@
+#! /bin/csh -f
+#: gen_a1 - create random tree classes with same number of cell and net
+#:          nodes and same number of edges as the G_{xy,k} graphs;
+#:          dimensions range from 1 to 2.
+
+# to change maximum rank, edit the foreach statement below
+set class_size = 32
+
+if( "`setenv | fgrep SEED_FILE`" == "" ) then
+    set SEED_FILE = $cwd/seed_file
+endif
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+    set DATA_DIRECTORY = $cwd/../data
+endif
+if( "`setenv | fgrep PROGRAM_DIRECTORY`" != "" ) then
+    set path = ( ${PROGRAM_DIRECTORY} $path )
+endif
+
+@ edges = 20
+foreach rank (01 02 03 04 05) # (highest three ranks removed for demo) 
+    @ nodes = $edges + 1
+    @ n0 = $nodes / 2
+    @ n1 = $nodes - $n0
+    @ m = $edges
+    foreach dimension ( 1 1.001 1.01 1.1 2 )
+        # change . to p for naming the directory based on dimension
+        set alt_dimension = `echo $dimension | sed 's/\./p/'`
+        set name = "GB_1_rnd${alt_dimension}_${rank}"
+        set directory = $DATA_DIRECTORY/$name
+        echo "Creating $name"
+        if ( -e $directory ) then
+            echo -n "$name exists, overwrite (y/n)? "
+            if ( $< == "y" ) then
+                rm -rf $directory
+            else
+                continue
+            endif
+        endif
+        mkdir $directory
+        cd $directory
+        sbg_random_graph -n0=$n0 -n1=$n1 -m=$m -name=$name\
+             -N=$class_size -seed=$SEED_FILE -d=$dimension
+    end
+    @ edges = 2 * $edges + 10
+end
+
+
+#  [Last modified: 2011 08 16 at 20:32:26 GMT]

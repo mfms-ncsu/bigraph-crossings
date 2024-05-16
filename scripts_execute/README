@@ -1,0 +1,75 @@
+
+                Stallmann, Brglez, Ghosh: Execution Scripts
+
+   Directories corresponding to the bigraph classes are assumed to be in
+   the directory ../data (wrt the current directory), but may be changed
+   by setting the environment variable DATA_DIRECTORY.
+
+   The binaries for various bigraph generating programs are assumed to be
+   on the current path or in the directory specified by the environment
+   variable PROGRAM_DIRECTORY.
+
+   All of these scripts have at least one argument specifying the bigraph
+   classes on which the treatments are to be executed (and all will print
+   a usage message if no arguments are supplied). This argument is either
+   the name of the subdirectory for a single class -- e.g. GB_1_rnd2_08
+   if the treatments are to be run on the random bigraph class
+   R(1,3830,2) (see description of naming conventions in the top-level
+   README.formats) -- or a quoted expression for multiple classes using
+   Unix "wild cards" -- e.g. 'GB_1_rnd*_0[1-8]' for all random tree
+   classes (the quotes are required to prevent premature shell
+   expansion).
+     * sbg_run_all run_all - script to run all simple treatments on a
+       specified class Usage: run_all where is a string specifying a set
+       of subdirectories of the data directory (enclosed in single or
+       double quotes to prevent globbing)
+     * sbg_run_dot run_dot - script to run the dot heuristic on a
+       specified class Usage: run_dot where is a string specifying a set
+       of subdirectories of the data directory (enclosed in single or
+       double quotes to prevent globbing)
+     * sbg_run_mla run_mla - script to run the minimum linear arrangement
+       algorithm on a class.
+       Usage: run_mla class_name [number_of_subjects]
+       class_name is a string specifying a set of subdirectories of the
+       data directory (enclosed in single or double quotes to prevent
+       globbing)
+     * sbg_run_tr run_tr - script to run a single treatment on a
+       specified class Usage: run_tr [<# of subjects>] is the two-digit
+       treatment number, e.g. 04 or 19 is a string specifying a set of
+       subdirectories of the data directory (enclosed in single or double
+       quotes to prevent globbing) is the maximum number of iterations
+     * sbg_run_tr23 run_tr23 - run tr23 on a given bigraph type (assumes
+       that the script tr23 is in the same directory as where we're
+       running this script). Matt Stallmann, 21 Oct 1999
+     * sbg_run_tr23_verbose run_tr23 - run tr23 on a given bigraph type
+       (assumes that the script tr23 is in the same directory as where
+       we're running this script). Note: this is the verbose version; it
+       uses tr23_verbose instead of tr23 Features of the verbose version
+       - the final .ord files are saved (since it takes a long time to
+       recreate them) and a .itr file shows the progress of tr23. Matt
+       Stallmann, 21 Oct 1999
+     * sbg_time_all time_all - script to do timing of all simple
+       treatments on a specified class Usage: time_all where is a string
+       specifying a set of subdirectories of the data directory (enclosed
+       in single or double quotes to prevent globbing)
+     * sbg_time_dot time_dot - get timing stats for dot on a given
+       bigraph type
+     * sbg_time_tr23 time_tr23 - get timing stats for tr23 on a given
+       bigraph type (assumes that the script tr23_for_timing is in the
+       same directory as where we're running this script). Matt
+       Stallmann, 18 Mar 2001
+     * sbg_tr23 tr23 - a new treatment that alternates between barycenter
+       and adaptive insertion Usage: tr23 dotfile initial_ord_file Matt
+       Stallmann, 21 Oct 1999
+     * sbg_tr23_for_timing tr23_for_timing - outputs number of iterations
+       for tr23 Usage: tr23 dotfile initial_ord_file Matt Stallmann, 18
+       Mar 2001
+     * sbg_tr23_verbose tr23 - a new treatment that alternates between
+       barycenter and adaptive insertion (verbose version) Usage: tr23
+       dotfile initial_ord_file Matt Stallmann, 21 Oct 1999
+     _________________________________________________________________
+
+
+    Matthias Stallmann ( mfms@csc.ncsu.edu)
+
+   Tue Aug 6 13:09:50 EDT 2002

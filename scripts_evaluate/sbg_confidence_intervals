@@ -1,0 +1,85 @@
+#!/bin/csh -f
+#: confidence_intervals - script to produce 95% confidence intervals for data
+#:             in TR?? files in specified class directories; number of
+#:             subjects and relevant t-table data are set in the top part
+#: Usage: confidence_intervals <class name>
+#:        where <class name> is a string specifying a set of subdirectories
+#:        of the data directory (enclosed in single or double quotes to
+#:        prevent globbing)
+
+#set class_size = 64             # for standard results
+#set sqrt_class_size = 8
+#set t_table_factor = 2.00
+#set tr23_class_size = 8
+#set tr23_sqrt_class_size = 2.83
+#set tr23_t_table_factor = 2.31
+
+set class_size = 100            # for Juenger/Mutzel results
+set sqrt_class_size = 10
+set t_table_factor = 1.98
+set tr23_class_size = 100
+set tr23_sqrt_class_size = 10
+set tr23_t_table_factor = 1.98
+
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+     set DATA_DIRECTORY = $cwd/../data
+endif
+if( "`setenv | fgrep PROCESSED_DIRECTORY`" == "" ) then
+     set PROCESSED_DIRECTORY = $cwd/../processed
+endif
+if( "`setenv | fgrep PROGRAM_DIRECTORY`" != "" ) then
+     set path = ( ${PROGRAM_DIRECTORY} $path )
+endif
+
+if( $#argv != 1 ) then
+    echo "Usage: $0 <class name>"
+    echo "<class name> is a string specifying a set of subdirectories"
+    echo "of the data directory (enclosed in single or double quotes to"
+    echo "prevent globbing)"
+    exit( 1 )
+endif
+
+cd $DATA_DIRECTORY
+set class_list = `glob $1`
+foreach dir ( $class_list )
+    echo "Generating 95% confidence intervals for $dir"
+    set confidence_file = $PROCESSED_DIRECTORY/CONFIDENCE_$dir
+    if( -e $confidence_file ) then
+        echo -n "Warning: CONFIDENCE_$dir already exists. Delete it? "
+        if ( $< != "y" ) continue
+        rm $confidence_file
+    endif
+    cd $DATA_DIRECTORY/$dir
+    touch $confidence_file
+    foreach data_file ( TR* )
+        set treatment = `echo $data_file | sed 's/TR\(..\).*/\1/'`
+        set legend = TR$treatment
+        if( $treatment == 12 ) set legend = DOT
+        echo $legend | awk '{ printf "%s\t", $1; }' >> $confidence_file
+        
+        # deal with special case of treatment 23 - a kludge but it works
+        set my_class_size = $class_size
+        set my_sqrt_class_size = $sqrt_class_size
+        set my_t_table_factor = $t_table_factor
+        if( $treatment == 23 ) then
+            set my_class_size = $tr23_class_size
+            set my_sqrt_class_size = $tr23_sqrt_class_size
+            set my_t_table_factor = $tr23_t_table_factor
+        endif
+
+        # get basic stats and extract relevant data
+        set stats = `tail -$my_class_size $data_file | cut -f 2 | sbg_fstats`
+        set mean = $stats[2]
+        set std_deviation = $stats[4]
+
+        # calculate +/- value for interval and range (use awk to do
+        # floating arithmetic; ugly - the whole thing should be done in perl)
+        set diff = `echo "$my_t_table_factor $std_deviation $my_sqrt_class_size" | awk '{ print $1 * $2 / $3; }'`
+        set bottom = `echo "$mean $diff" | awk '{ x = $1 - $2; if (x < 0) print 0; else print x; }'`
+        set top = `echo "$mean $diff" | awk '{ print $1 + $2; }'`
+
+        # output bottom and top of interval
+        echo "$bottom $top" | awk '{ printf "%4.2f\t%4.2f\n", $1, $2; }' \
+            >> $confidence_file
+    end
+end

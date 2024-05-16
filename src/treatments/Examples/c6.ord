@@ -1,0 +1,12 @@
+# scrambled order for cycle of length 6
+0 {
+  a1
+  a2
+  a3
+}
+
+1 {
+  b2
+  b1
+  b3
+}

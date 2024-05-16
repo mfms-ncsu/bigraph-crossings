@@ -1,0 +1,47 @@
+#! /bin/csh -f
+##: time_tr23 - get timing stats for tr23 on a given bigraph type (assumes
+#:             that the script tr23_for_timing is in the same directory as
+#:             where we're running this script).
+# Matt Stallmann, 18 Mar 2001
+
+if( "`setenv | fgrep DATA_DIRECTORY`" == "" ) then
+     set DATA_DIRECTORY = $cwd/../data
+endif
+
+if( $#argv < 1 || $#argv > 2 ) then
+    echo "Usage: $0 <class name> [<number of subjects per class>]"
+    echo "<class name> is a string specifying a set of subdirectories"
+    echo "of the data directory (enclosed in single or double quotes to"
+    echo "prevent globbing)"
+    exit( 1 )
+endif
+
+set current_directory = $cwd
+cd $DATA_DIRECTORY
+set class_list = `glob $1`
+if ( $#argv == 2 ) then
+    @ subjects = $2
+else
+    @ subjects = 8              # default for tr23
+endif
+foreach dir ( $class_list )
+    cd $DATA_DIRECTORY/$dir
+    set results = "TIMING_TR23"
+    if( -e $results ) mv $results $results.bak
+    touch $results
+    @ count_subjects = 0
+    foreach file ( *.dot )
+        (time $current_directory/sbg_tr23_for_timing $file $file.ORD) \
+          |& paste - - \
+          | awk '{ split($3,x,"u"); printf "%s\t%6.2f\t%d\n",$1,x[1],$2; }' \
+          >> $results
+        if ( $status ) then
+            echo "Unable to run sbg_tr23_for_timing ---"
+            echo "Make sure it's in the current directory"
+            echo "and check PROGRAM_DIRECTORY variable"
+            exit( 1 )
+        endif
+        @ count_subjects = $count_subjects + 1
+        if ( $count_subjects >= $subjects ) break
+    end
+end

@@ -1,0 +1,52 @@
+#! /bin/tcsh -f
+#: vlsi_ratios - creates a data file suitable for DeltaGraph, plotting
+#:               ratios of crossing numbers between two treatments for
+#:               all VLSI graphs
+# Matt Stallmann, 10 May 2000
+
+if( "`setenv | fgrep PROCESSED_DIRECTORY`" == "" ) then
+     set PROCESSED_DIRECTORY = $cwd/../processed
+endif
+
+if( $#argv < 2 || $#argv > 3 ) then
+    echo "Usage: $0 <treatment 1> <treatment 2> [ min ]"
+    echo "to get ratio of mean crossings for treatment 1 vs. treatment 2"
+    echo "(the third argument is included if min instead of mean is to be"
+    echo " used - also implies scr class, and mean for treatment 1 if both"
+    echo " treatments are the same)"
+    exit( 1 )
+endif
+
+set tr1 = $1
+set tr2 = $2
+set field1 = 3
+set field2 = 3
+set suffix =
+if( $#argv == 3 ) then
+    set suffix = _min
+    set field2 = 2
+    if( $tr1 != $tr2 ) then
+        set field1 = 2
+    endif
+endif
+
+set output_file = $PROCESSED_DIRECTORY/GV_${tr1}_${tr2}$suffix 
+
+foreach class ( 00 01 10 11 20 21 )
+    fgrep $tr1 $PROCESSED_DIRECTORY/SUMMARY_G_${class}_0[2-7] \
+        | cut -f $field1 > /tmp/tr1_$$
+    fgrep $tr2 $PROCESSED_DIRECTORY/SUMMARY_G_${class}_0[2-7] \
+        | cut -f $field2 > /tmp/tr2_$$
+    paste /tmp/tr1_$$ /tmp/tr2_$$ | awk -f quotient.awk \
+        > /tmp/${class}_$$
+    rm /tmp/tr?_$$
+end
+
+echo edges ':G_00' ':G_01' ':G_10' ':G_11' ':G_20' ':G_21' \
+    | awk -F: '{ printf "%s\t%s\t%s\t%s\t%s\t%s\n",$1,$2,$3,$4,$5,$6; }' \
+    > $output_file
+
+tail -7 num_edges | head -6 | paste - /tmp/[0-2][01]_$$ \
+     >> $output_file
+rm /tmp/[0-2][01]_$$
+

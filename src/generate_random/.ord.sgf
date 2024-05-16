@@ -1,0 +1,5 @@
+c created by dot+ord2sgf, date/time = Tue Jan 19 02:23:02 UTC 2016
+c $Id: dot+ord2sgf 66 2014-03-29 16:58:11Z mfms $
+Usage: dot_and_ord_to_sgf DOT_FILE_NAME ORD_FILE_NAME
+ reads files DOT_FILE_NAME and ORD_FILE_NAME to produce an sgf file
+ printing it on standard output

@@ -1,0 +1,137 @@
+#!/usr/local/bin/perl
+##: generate - generate a class of random bigraphs with sizes that increase by
+##            a factor of 2
+## Usage: generate [-a density] [-b balance] [-d dimension]
+##                 [-x] [-L smallest_size] [-U largest_size]
+##                 [-N number_of_subjects] 
+##        where
+##          density = # of edges / (# of nodes - 1) (default = 1)
+##          balance = # of side 1 nodes / # of side 0 nodes (1)
+##          dimension = 1 + e, where spanning tree is constructed using
+##             distance between points in a 1 x e rectangle if 0 <= e <= 1
+##             otherwise, spanning tree is based on uniformly random point-
+##             to-point distances (0)
+##          the -x option is present if graphs are not necessarily connected,
+##          smallest_size = number of edges of smallest graphs in class (64)
+##          largest_size = upper bound on number of edges (2048)
+##          number_of_subjects = number of subjects per class (32)
+##        At least one argument must be explicitly specified  
+## @author Matt Stallmann, Jun 2001
+
+## 21 Jan 2003 - added more detailed checking of error code when program
+##               sbg_random_graph fails.
+
+require "getopts.pl";
+
+sub usage_msg {
+	 local( $command_name ) = @_;
+    print STDERR "Usage: $command_name\n";
+    print STDERR "        [-a density] (default 1)\n";
+    print STDERR "        [-b balance] (default 1)\n";
+	 print STDERR "        [-x] (don't force graph to be connected)\n";
+    print STDERR "        [-d dimension] (default 0, meaning infinity)\n";
+    print STDERR "        [-L smallest_size] (default 64)\n";
+    print STDERR "        [-U largest_size] (default 2048)\n";
+    print STDERR "        [-N number_of_subjects] (default 32)\n";
+    print STDERR "At least one argument must be specified.\n";
+}
+
+sub replace_point {
+  # replaces decimal point with a 'p' in a floating point number
+  local( $number ) = @_;
+  if ( ( $integer_part, $fraction ) = $number =~ /(\d*)\.(\d*)/ ) {
+    return "${integer_part}p${fraction}";
+  }
+  return $number;
+}
+
+&Getopts( 'L:N:U:a:b:d:x' );
+
+if ( ! $opt_a && ! $opt_b && ! $opt_x && ! $opt_d && ! $opt_L && ! $opt_U
+	  && ! $opt_N ) {
+  &usage_msg( $0 );
+  exit 1;
+}
+
+$opt_a = 1 if ! $opt_a;
+$opt_b = 1 if ! $opt_b;
+$opt_d = 0 if ! $opt_d;
+$opt_L = 64 if ! $opt_L;
+$opt_U = 2048 if ! $opt_U;
+$opt_N = 32 if ! $opt_N;
+
+print STDERR
+  "a = $opt_a, b = $opt_b, x = $opt_x, d = $opt_d,"
+	 . " L = $opt_L, U = $opt_U, N = $opt_N\n";
+
+$density = &replace_point( $opt_a );
+print STDERR "density = $density\n";
+
+$dimension = &replace_point( $opt_d );
+print STDERR "dimension = $dimension\n";
+
+# Establish seed file and data directory, and make sure PROGRAM_DIRECTORY,
+# if any, is part of the current path.
+$seed_file = defined($ENV{'SEED_FILE'}) ? $ENV{'SEED_FILE'}
+                                        : $ENV{'PWD'} . '/seed_file';
+$data_dir = defined($ENV{'DATA_DIRECTORY'}) ? $ENV{'DATA_DIRECTORY'}
+                                        : $ENV{'PWD'} . '/../data';
+$ENV{'PATH'} = $ENV{'PROGRAM_DIRECTORY'} . ':'. $ENV{'PATH'}
+               if defined($ENV{'PROGRAM_DIRECTORY'});
+print STDERR "seed_file = $seed_file\n";
+print STDERR "data_dir = $data_dir\n";
+print STDERR "PROGRAM_DIRECTORY = $ENV{'PROGRAM_DIRECTORY'}\n";
+# print STDERR "PATH = $ENV{'PATH'}\n";
+
+$edges = $opt_L;
+while ( $edges <= $opt_U ) {
+  $nodes = int( $edges / $opt_a ) + 1;
+  $n0 = int( $nodes / ( $opt_b + 1 ) ); 
+  $n1 = $nodes - $n0;
+  $size_string = sprintf( "%07d", $edges );
+  if ( $opt_x ) {
+		$connected = 0;
+		$name = "GNE_${density}_rnd${dimension}_${size_string}";
+  }
+  else {
+		$connected = 1;
+		$name = "GE_${density}_rnd${dimension}_${size_string}";
+  }
+  print STDERR "Creating $name\n";
+  if ( -e "$data_dir/$name" ) {
+    print STDERR "Directory $name exists; remove it? ";
+    $answer = <STDIN>;
+    chop( $answer );
+    if ( $answer eq 'y' ) {
+      system "rm -r $data_dir/$name";
+    }
+    else {
+      next;
+    }
+  } 
+  mkdir( "$data_dir/$name", 0777 )
+		|| die "Unable to create directory $data_dir/$name";
+  chdir("$data_dir/$name")
+		|| die "Unable to access directory $data_dir/$name";
+  $arg_string = "sbg_random_graph -n0=$n0 -n1=$n1 -m=$edges"
+		. " -name=$name -seed=$seed_file -c=$connected"
+			 . " -d=$opt_d -N=$opt_N";
+  print STDERR "$arg_string\n";
+  system( $arg_string );
+  if( $? ) {						  # error code returned
+		$return_code = int( $? / 256 );  # exit code from main program, if any
+		$system_code = $? % 256;
+      print STDERR "Abnormal execution of sbg_random_graph, code = "
+			 . "$return_code\n";
+		if( $system_code ) {		  # must be some system error
+			  print STDERR "Message = $!\n";
+		}
+		die "";
+  }
+}
+continue {
+	 $edges = 2 * $edges;
+}
+
+
+

@@ -1,0 +1,14 @@
+# Natural ordering for graph grid_8_by_8
+# seed: 0 0 0
+# Ordering for layer 0
+0 { 
+ b0_0 b0_2 b0_4 b0_6 b1_1 b1_3 b1_5 b1_7 b2_0 b2_2 b2_4 b2_6 b3_1 b3_3 b3_5 b3_7 b4_0 b4_2 b4_4
+ b4_6 b5_1 b5_3 b5_5 b5_7 b6_0 b6_2 b6_4 b6_6 b7_1 b7_3 b7_5 b7_7
+} 
+# End of ordering for layer 0
+# Ordering for layer 1
+1 { 
+ a0_1 a0_3 a0_5 a0_7 a1_0 a1_2 a1_4 a1_6 a2_1 a2_3 a2_5 a2_7 a3_0 a3_2 a3_4 a3_6 a4_1 a4_3 a4_5
+ a4_7 a5_0 a5_2 a5_4 a5_6 a6_1 a6_3 a6_5 a6_7 a7_0 a7_2 a7_4 a7_6
+} 
+# End of ordering for layer 1

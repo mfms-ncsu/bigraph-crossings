@@ -1,0 +1,11 @@
+#: Ordering for graph g_1_00
+#: Treatment 0001
+
+0 { # start of ordering for layer 0
+b0 b1 b2 b3 b4 b14 b15 b13 b16 b12 b7 b5 b6 b8 b10 b9 b11
+} # end of ordering for layer 0
+
+1 { # start of ordering for layer 1
+a0 a3 a1 a2
+} # end of ordering for layer 1
+

@@ -1,0 +1,12 @@
+# Natural ordering for graph hc_8
+# seed: 0 0 0
+# Ordering for layer 0
+0 { 
+ b000 b110 b101 b011
+} 
+# End of ordering for layer 0
+# Ordering for layer 1
+1 { 
+ a100 a010 a001 a111
+} 
+# End of ordering for layer 1
