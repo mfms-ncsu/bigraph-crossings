@@ -55,7 +55,7 @@ static bool parse_statement( const char * buffer, const char * & u,
 #ifdef DEBUG
   cerr << " parsing statement ... " << buffer << endl;
 #endif
-  char * arrow_pos = strstr(buffer, "->");
+  const char * arrow_pos = strstr(buffer, "->");
   if ( ! arrow_pos ) return false;
   for ( int k = 0; k < arrow_pos - buffer; k++ )
    first_node[k] = buffer[k];
@@ -115,9 +115,9 @@ bool next_edge( istream & in, const char * & u, const char * & v )
 }
 
 void dot_preamble( ostream & out, const char * graph_name, const char *
-                  seed_info )
+                  info )
 {
-  out << "digraph " << graph_name << " /* seed: " << seed_info
+  out << "digraph " << graph_name << " /* " << info
    << " */ {" << endl;
 }
 
